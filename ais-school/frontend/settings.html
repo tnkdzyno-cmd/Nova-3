@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Settings — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Settings</h1><div class="sub">Appearance and your profile</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Appearance</h2>
+        <div class="muted" style="margin-bottom:12px;">Choose how Nova looks on this device. This preference is saved to this browser only.</div>
+        <div id="themeToggleFull"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Your profile</h2>
+        <table class="ledger">
+          <tbody>
+            <tr><td class="muted" style="width:160px;">Full name</td><td id="pFullName"></td></tr>
+            <tr><td class="muted">Username</td><td id="pUsername" class="mono"></td></tr>
+            <tr><td class="muted">Role</td><td id="pRole"></td></tr>
+          </tbody>
+        </table>
+        <div class="muted" style="margin-top:14px;">Password changes and profile edits aren't available yet — ask a System Administrator to update your account.</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("settings.html");
+
+    renderThemeToggle(document.getElementById("themeToggleFull"));
+
+    const user = getUser();
+    document.getElementById("pFullName").textContent = user?.fullName || "—";
+    document.getElementById("pUsername").textContent = user?.username || "—";
+    document.getElementById("pRole").textContent = ROLE_LABELS[user?.role] || user?.role || "—";
+  </script>
+</body>
+</html>

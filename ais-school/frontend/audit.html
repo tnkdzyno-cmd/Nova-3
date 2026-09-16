@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Audit Log — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Audit Log</h1><div class="sub">Immutable record of every financial change — who, when, before and after</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Filter</h2></div>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <div class="field"><label>Search (user or action)</label><input id="searchBox" placeholder="e.g. officer or REVERSE" /></div>
+          <div class="field">
+            <label>Entity type</label>
+            <select id="entityFilter">
+              <option value="">All entity types</option>
+              <option value="JournalEntry">Journal entries</option>
+              <option value="Invoice">Invoices</option>
+              <option value="Payment">Payments</option>
+              <option value="Account">Accounts</option>
+              <option value="Student">Students</option>
+              <option value="Supplier">Suppliers</option>
+              <option value="Period">Periods</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:14px;">
+          <div class="field"><label>From date</label><input id="dateFrom" type="date" /></div>
+          <div class="field"><label>To date</label><input id="dateTo" type="date" /></div>
+        </div>
+
+        <table class="ledger" id="auditTable">
+          <thead><tr><th>When</th><th>User</th><th>Entity</th><th>Action</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="panel-row" style="margin-top:10px;">
+          <div class="muted" id="resultCount"></div>
+          <div id="pager"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("audit.html");
+    const alertHost = document.getElementById("alertHost");
+    let currentPage = 1;
+
+    function currentFilters() {
+      return {
+        search: document.getElementById("searchBox").value.trim(),
+        entityType: document.getElementById("entityFilter").value,
+        dateFrom: document.getElementById("dateFrom").value,
+        dateTo: document.getElementById("dateTo").value,
+      };
+    }
+
+    async function load() {
+      try {
+        const params = { ...currentFilters(), page: currentPage, pageSize: 15 };
+        const { auditLog, total, page, totalPages } = await api("/api/audit-log", { params });
+        const body = document.querySelector("#auditTable tbody");
+        body.innerHTML = auditLog.length
+          ? auditLog
+              .map(
+                (a, idx) => `
+                <tr>
+                  <td class="mono">${new Date(a.timestamp).toLocaleString()}</td>
+                  <td>${escapeHtml(a.username)}</td>
+                  <td>${escapeHtml(a.entityType)}<div class="muted mono">${a.entityId.slice(0, 8)}…</div></td>
+                  <td><span class="pill pill-open-period">${escapeHtml(a.action)}</span></td>
+                  <td><button class="secondary small" data-toggle="${idx}">Details</button></td>
+                </tr>
+                <tr id="detail-${idx}" style="display:none;">
+                  <td colspan="5">
+                    <div class="grid-2">
+                      <div><h3>Before</h3><pre class="mono" style="white-space:pre-wrap; font-size:0.78rem;">${escapeHtml(JSON.stringify(a.before, null, 2) || "null")}</pre></div>
+                      <div><h3>After</h3><pre class="mono" style="white-space:pre-wrap; font-size:0.78rem;">${escapeHtml(JSON.stringify(a.after, null, 2) || "null")}</pre></div>
+                    </div>
+                  </td>
+                </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="5" class="empty">No audit entries match this filter.</td></tr>`;
+
+        document.getElementById("resultCount").textContent = `${total} entr${total === 1 ? "y" : "ies"} matching`;
+        renderPager(document.getElementById("pager"), { page, totalPages }, (p) => { currentPage = p; load(); });
+
+        body.querySelectorAll("[data-toggle]").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const row = document.getElementById(`detail-${btn.dataset.toggle}`);
+            row.style.display = row.style.display === "none" ? "table-row" : "none";
+          })
+        );
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+
+    let searchDebounce;
+    function onFilterChange() {
+      currentPage = 1;
+      load();
+    }
+    document.getElementById("searchBox").addEventListener("input", () => {
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(onFilterChange, 300);
+    });
+    ["entityFilter", "dateFrom", "dateTo"].forEach((id) => document.getElementById(id).addEventListener("change", onFilterChange));
+
+    load();
+  </script>
+</body>
+</html>

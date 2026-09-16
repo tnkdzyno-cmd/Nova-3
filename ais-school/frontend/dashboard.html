@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div>
+          <h1 id="welcome">Welcome</h1>
+          <div class="sub">Choose a module to get started.</div>
+        </div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="nav-cards" id="navCards"></div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("dashboard.html");
+
+    const user = getUser();
+    document.getElementById("welcome").textContent = `Welcome, ${user?.fullName || user?.username || ""}`;
+
+    // Per the Nova spec: the dashboard shows navigation only — no trial
+    // balance, outstanding-balance, revenue, or mini-stat widgets. Those
+    // live in Reports instead (see reports.html). A couple of modules
+    // beyond the spec's literal card list (Suppliers/AP) are included
+    // because they're real, fully-built parts of the platform — hiding
+    // them from the dashboard would just bury working functionality one
+    // click deeper for no benefit. Budgeting and HR are shown as
+    // "Coming soon" rather than faked, since neither is built yet.
+    const CARDS = [
+      { title: "Management Accounts", desc: "KPIs, budget performance, and pending approvals.", icon: "management", href: "management.html" },
+      { title: "Students", desc: "Student records, enrolment status, and campus assignment.", icon: "students", href: "students.html" },
+      { title: "Billing", desc: "Bulk term billing, invoicing, and fee collection.", icon: "billing", href: "students.html" },
+      { title: "Finance", desc: "General ledger, journal entries, and period control.", icon: "finance", href: "journal.html" },
+      { title: "Accounts", desc: "Chart of accounts and accounting periods.", icon: "accounts", href: "accounts.html" },
+      { title: "Suppliers (AP)", desc: "Supplier invoices and two-step payment approval.", icon: "suppliers", href: "suppliers.html" },
+      { title: "Budgeting", desc: "Annual and departmental budgets with an approval workflow.", icon: "budgeting", href: "budgeting.html" },
+      { title: "Reports", desc: "Trial balance, financial statements, and aged receivables.", icon: "reports", href: "reports.html" },
+      { title: "HR", desc: "Staff records and payroll integration.", icon: "hr", href: null },
+      { title: "User Management", desc: "Staff accounts, roles, and the permission matrix.", icon: "users", href: "users.html" },
+      { title: "Settings", desc: "Appearance, theme, and your profile.", icon: "settings", href: "settings.html" },
+    ];
+
+    document.getElementById("navCards").innerHTML = CARDS.filter((c) => !c.href || canAccess(c.href))
+      .map((c) => {
+        const tag = c.href ? "a" : "div";
+        const hrefAttr = c.href ? `href="${c.href}"` : "";
+        return `<${tag} ${hrefAttr} class="nav-card ${c.href ? "" : "disabled"}">
+          <div class="icon">${iconSvg(c.icon, 22)}</div>
+          <div class="title">${c.title}</div>
+          <div class="desc">${c.desc}</div>
+          ${c.href ? "" : '<div class="soon">Coming soon</div>'}
+        </${tag}>`;
+      })
+      .join("");
+  </script>
+</body>
+</html>

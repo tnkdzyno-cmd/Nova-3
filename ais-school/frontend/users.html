@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>User Management — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>User Management</h1><div class="sub">Staff accounts, roles, and auditor access grants</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Staff directory</h2></div>
+        <table class="ledger" id="usersTable">
+          <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Access</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="muted" style="margin-top:14px;">
+          Creating, deactivating, and resetting passwords for accounts isn't available in this UI yet —
+          see the <a href="audit.html">audit log</a> for account activity, or edit <code>backend/src/seed.ts</code> to add demo accounts.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Role permission matrix</h2></div>
+        <div class="muted" style="margin-bottom:12px;">What each role can do. Enforced server-side on every request — this table is a reference, not a control.</div>
+        <table class="ledger" id="matrixTable">
+          <thead><tr><th>Role</th><th>Can</th></tr></thead>
+          <tbody>
+            <tr><td>System Administrator</td><td>Everything, including granting auditor access.</td></tr>
+            <tr><td>Vice-Chancellor</td><td>Everything except user administration — reverses journals, closes periods, approves AP payments/budgets, payroll import, sees Management Accounts (KPIs + approvals queue). Consolidates what used to be separate Finance Manager and Principal roles.</td></tr>
+            <tr><td>Accounts Officer</td><td>Posts day-to-day transactions (invoices, payments, journals). Cannot reverse journals, close periods, or reach payroll admin.</td></tr>
+            <tr><td>Bursar</td><td>Student billing and receipting only.</td></tr>
+            <tr><td>Auditor</td><td>Read-only, and <b>only in the specific data domains a System Administrator has granted</b> — not a blanket "sees everything" role. See a given auditor's granted access in the table above.</td></tr>
+            <tr><td>IT Administrator</td><td>User directory, audit log, and grants/revokes auditor access. No financial data access itself.</td></tr>
+            <tr><td>Budget Officer</td><td>Creates and submits budgets. Cannot approve its own submissions — the Vice-Chancellor reviews and approves.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("users.html");
+    const alertHost = document.getElementById("alertHost");
+    let availableScopes = [];
+    const SCOPE_LABELS = { accounts: "Chart of Accounts", journal: "General Ledger", students: "Student Records", billing: "AR Billing", suppliers: "Suppliers (AP)", reports: "Reports", audit: "Audit Log", users: "User Directory" };
+
+    function scopeCheckboxes(current) {
+      return availableScopes
+        .map(
+          (s) => `<label style="display:inline-flex; align-items:center; gap:6px; margin:0 14px 8px 0; font-size:0.85rem;">
+            <input type="checkbox" class="scope-box" value="${s}" ${current.includes(s) ? "checked" : ""} /> ${escapeHtml(SCOPE_LABELS[s] || s)}
+          </label>`
+        )
+        .join("");
+    }
+
+    async function load() {
+      try {
+        const { users, availableScopes: scopes } = await api("/api/users");
+        availableScopes = scopes;
+        document.querySelector("#usersTable tbody").innerHTML = users
+          .map((u) => {
+            const isAuditor = u.role === "auditor";
+            const accessCell = isAuditor
+              ? u.dataScopes && u.dataScopes.length
+                ? u.dataScopes.map((s) => `<span class="pill pill-posted" style="margin:0 4px 4px 0;">${escapeHtml(SCOPE_LABELS[s] || s)}</span>`).join("")
+                : `<span class="muted">No access granted yet</span>`
+              : `<span class="muted">Full role access</span>`;
+            return `<tr data-row="${u.id}">
+              <td>${escapeHtml(u.fullName)}</td>
+              <td class="mono">${escapeHtml(u.username)}</td>
+              <td>${escapeHtml(ROLE_LABELS[u.role] || u.role)}</td>
+              <td>${accessCell}</td>
+              <td>${isAuditor && roleCan("manageUsers") ? `<button class="secondary small" data-manage="${u.id}">Manage access</button>` : ""}</td>
+            </tr>
+            ${isAuditor && roleCan("manageUsers") ? `<tr id="editor-${u.id}" style="display:none;"><td colspan="5">
+              <div style="padding:10px 0;">
+                <div style="margin-bottom:8px;">${scopeCheckboxes(u.dataScopes || [])}</div>
+                <button class="small" data-save="${u.id}">Save access</button>
+              </div>
+            </td></tr>` : ""}`;
+          })
+          .join("");
+
+        document.querySelectorAll("[data-manage]").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const row = document.getElementById(`editor-${btn.dataset.manage}`);
+            row.style.display = row.style.display === "none" ? "table-row" : "none";
+          })
+        );
+        document.querySelectorAll("[data-save]").forEach((btn) =>
+          btn.addEventListener("click", async () => {
+            const editorRow = document.getElementById(`editor-${btn.dataset.save}`);
+            const scopes = [...editorRow.querySelectorAll(".scope-box:checked")].map((cb) => cb.value);
+            try {
+              await api(`/api/users/${btn.dataset.save}/data-scopes`, { method: "PUT", body: { scopes } });
+              showAlert(alertHost, "Access updated. Takes effect immediately — no need for that auditor to log out and back in.", "ok");
+              await load();
+            } catch (err) {
+              showAlert(alertHost, err.message, "error");
+            }
+          })
+        );
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

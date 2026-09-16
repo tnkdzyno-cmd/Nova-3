@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reports — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Reports</h1><div class="sub">Standard financial statements</div></div>
+        <div class="field" style="width:180px;"><label>As of period</label><select id="periodSelect"></select></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="tabs">
+        <button class="active" data-tab="trial">Trial balance</button>
+        <button data-tab="income">Income statement</button>
+        <button data-tab="balance">Balance sheet</button>
+        <button data-tab="aged">Aged receivables</button>
+      </div>
+
+      <div class="panel" data-panel="trial">
+        <div class="panel-row">
+          <h2>Trial balance</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="secondary small" id="exportTbCsv">Export CSV</button>
+            <button class="secondary small" id="exportTbPdf">Export PDF</button>
+          </div>
+        </div>
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Account</th><th>Type</th><th class="num">Debit</th><th class="num">Credit</th></tr></thead>
+          <tbody id="trialBody"></tbody>
+          <tfoot><tr><td colspan="3">Total</td><td class="num" id="trialTotalDebit"></td><td class="num" id="trialTotalCredit"></td></tr></tfoot>
+        </table>
+        <div class="muted" id="trialStatus" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="panel" data-panel="income" style="display:none;">
+        <h3>Income</h3>
+        <table class="ledger"><thead><tr><th>Code</th><th>Account</th><th class="num">Amount</th></tr></thead><tbody id="incomeBody"></tbody></table>
+        <h3 style="margin-top:18px;">Expense</h3>
+        <table class="ledger"><thead><tr><th>Code</th><th>Account</th><th class="num">Amount</th></tr></thead><tbody id="expenseBody"></tbody></table>
+        <div class="stat-row" style="margin-top:16px;">
+          <div class="stat"><div class="label">Net surplus / (deficit)</div><div class="value" id="netSurplus"></div></div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="balance" style="display:none;">
+        <div class="grid-2">
+          <div>
+            <h3>Assets</h3>
+            <table class="ledger"><tbody id="assetsBody"></tbody></table>
+          </div>
+          <div>
+            <h3>Liabilities &amp; equity</h3>
+            <table class="ledger"><tbody id="liabEquityBody"></tbody></table>
+          </div>
+        </div>
+        <div class="muted" id="bsStatus" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="panel" data-panel="aged" style="display:none;">
+        <div class="panel-row">
+          <h2>Aged receivables</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="secondary small" id="exportAgedCsv">Export CSV</button>
+            <button class="secondary small" id="exportAgedPdf">Export PDF</button>
+          </div>
+        </div>
+        <table class="ledger">
+          <thead><tr><th>Student</th><th>Due date</th><th>Ageing</th><th class="num">Outstanding</th></tr></thead>
+          <tbody id="agedBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("reports.html");
+    const alertHost = document.getElementById("alertHost");
+
+    document.querySelectorAll(".tabs button").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll("[data-panel]").forEach((p) => (p.style.display = p.dataset.panel === btn.dataset.tab ? "block" : "none"));
+      })
+    );
+
+    function periodParam() {
+      const val = document.getElementById("periodSelect").value;
+      return val ? { period: val } : {};
+    }
+
+    async function loadTrialBalance() {
+      const tb = await api("/api/reports/trial-balance", { params: periodParam() });
+      document.getElementById("trialBody").innerHTML = tb.rows
+        .map((r) => `<tr><td class="mono">${escapeHtml(r.code)}</td><td>${escapeHtml(r.name)}</td><td class="muted">${r.type}</td><td class="num">${r.debitDisplay}</td><td class="num">${r.creditDisplay}</td></tr>`)
+        .join("") || `<tr><td colspan="5" class="empty">No posted activity yet.</td></tr>`;
+      document.getElementById("trialTotalDebit").textContent = tb.totalDebitDisplay;
+      document.getElementById("trialTotalCredit").textContent = tb.totalCreditDisplay;
+      document.getElementById("trialStatus").innerHTML = tb.balanced
+        ? '<span class="pill pill-posted">Balanced</span> total debits equal total credits, as of ' + tb.asOf
+        : '<span class="pill pill-void">Out of balance</span> — this should never happen; check recent postings.';
+    }
+
+    async function loadIncomeStatement() {
+      const is = await api("/api/reports/income-statement", { params: periodParam() });
+      document.getElementById("incomeBody").innerHTML = is.income.map((r) => `<tr><td class="mono">${r.code}</td><td>${escapeHtml(r.name)}</td><td class="num">${r.display}</td></tr>`).join("") || `<tr><td colspan="3" class="empty">No income posted.</td></tr>`;
+      document.getElementById("expenseBody").innerHTML = is.expense.map((r) => `<tr><td class="mono">${r.code}</td><td>${escapeHtml(r.name)}</td><td class="num">${r.display}</td></tr>`).join("") || `<tr><td colspan="3" class="empty">No expenses posted.</td></tr>`;
+      document.getElementById("netSurplus").textContent = is.netSurplusDisplay;
+    }
+
+    async function loadBalanceSheet() {
+      const bs = await api("/api/reports/balance-sheet", { params: periodParam() });
+      const row = (r) => `<tr><td class="mono">${r.code}</td><td>${escapeHtml(r.name)}</td><td class="num">${r.display}</td></tr>`;
+      document.getElementById("assetsBody").innerHTML =
+        bs.assets.map(row).join("") + `<tr><td colspan="2" style="font-weight:600;">Total assets</td><td class="num" style="font-weight:600;">${money(bs.totalAssets)}</td></tr>`;
+      document.getElementById("liabEquityBody").innerHTML =
+        bs.liabilities.map(row).join("") +
+        bs.equity.map(row).join("") +
+        `<tr><td colspan="2">Net surplus for period</td><td class="num">${money(bs.netSurplusForPeriod)}</td></tr>` +
+        `<tr><td colspan="2" style="font-weight:600;">Total liabilities &amp; equity</td><td class="num" style="font-weight:600;">${money(bs.totalLiabilitiesAndEquity)}</td></tr>`;
+      document.getElementById("bsStatus").innerHTML = bs.balanced
+        ? '<span class="pill pill-posted">Balanced</span> assets equal liabilities + equity.'
+        : '<span class="pill pill-void">Out of balance</span>';
+    }
+
+    async function loadAged() {
+      const { rows } = await api("/api/invoices/aged-receivables");
+      document.getElementById("agedBody").innerHTML = rows.length
+        ? rows.map((r) => `<tr><td>${escapeHtml(r.studentName)}</td><td>${fmtDate(r.dueDate)}</td><td><span class="${r.bucket === "current" ? "pill pill-open-period" : "pill pill-overdue"}">${r.bucket}</span></td><td class="num">${money(r.outstanding)}</td></tr>`).join("")
+        : `<tr><td colspan="4" class="empty">No outstanding receivables.</td></tr>`;
+    }
+
+    async function loadAll() {
+      try {
+        await Promise.all([loadTrialBalance(), loadIncomeStatement(), loadBalanceSheet(), loadAged()]);
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+
+    document.getElementById("periodSelect").addEventListener("change", loadAll);
+
+    document.getElementById("exportTbCsv").addEventListener("click", () => {
+      const params = new URLSearchParams({ ...periodParam(), format: "csv" });
+      downloadExport(`/api/reports/trial-balance?${params}`, "trial-balance.csv").catch((err) => showAlert(alertHost, err.message, "error"));
+    });
+    document.getElementById("exportTbPdf").addEventListener("click", () => {
+      const params = new URLSearchParams({ ...periodParam(), format: "pdf" });
+      downloadExport(`/api/reports/trial-balance?${params}`, "trial-balance.pdf").catch((err) => showAlert(alertHost, err.message, "error"));
+    });
+    document.getElementById("exportAgedCsv").addEventListener("click", () =>
+      downloadExport("/api/invoices/aged-receivables?format=csv", "aged-receivables.csv").catch((err) => showAlert(alertHost, err.message, "error"))
+    );
+    document.getElementById("exportAgedPdf").addEventListener("click", () =>
+      downloadExport("/api/invoices/aged-receivables?format=pdf", "aged-receivables.pdf").catch((err) => showAlert(alertHost, err.message, "error"))
+    );
+
+    (async function init() {
+      try {
+        const { periods } = await api("/api/periods");
+        document.getElementById("periodSelect").innerHTML =
+          `<option value="">Latest / all activity</option>` + periods.map((p) => `<option value="${p.name}">${escapeHtml(p.name)} (to ${p.endDate})</option>`).join("");
+        await loadAll();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    })();
+  </script>
+</body>
+</html>

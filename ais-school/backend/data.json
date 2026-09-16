@@ -1,0 +1,2604 @@
+{
+  "accounts": [
+    {
+      "id": "84fa10e0-325e-4ecb-8b43-e40ace8a4b8d",
+      "code": "1000",
+      "name": "Cash on Hand",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true,
+      "isControlAccount": "CASH"
+    },
+    {
+      "id": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+      "code": "1010",
+      "name": "Bank — Operating Account",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true,
+      "isControlAccount": "BANK"
+    },
+    {
+      "id": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+      "code": "1200",
+      "name": "Accounts Receivable — Students",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true,
+      "isControlAccount": "AR"
+    },
+    {
+      "id": "49f35749-1696-4e7a-841c-7b1d759a56b8",
+      "code": "1210",
+      "name": "Inventory",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "2609da8b-9820-42c4-bc2c-4ea1d13b468b",
+      "code": "1220",
+      "name": "Prepayments",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "4ca774cc-10ec-4889-a051-6989e508101d",
+      "code": "1510",
+      "name": "Buildings",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "7c93c798-3b9d-4976-a8ae-3cd564aa2a3b",
+      "code": "1500",
+      "name": "Land",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "2ce55f5b-79ca-4864-9604-42d617a0fb72",
+      "code": "1520",
+      "name": "Vehicles",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "5792f0cd-a4e4-4196-ac21-4868cb1a3f71",
+      "code": "1530",
+      "name": "Furniture & Fittings",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "a88fcfc6-4dd3-419a-b9a6-5b554b10765e",
+      "code": "1540",
+      "name": "Equipment",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "d6384d18-ee15-4d75-a411-0265f726c376",
+      "code": "1550",
+      "name": "Computers & IT Equipment",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "d774ab44-cc37-4e8a-adbd-886e3d22ad0c",
+      "code": "1560",
+      "name": "Library Assets",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "f194daa9-ba47-4bbb-8bb0-84e13c0312fd",
+      "code": "1590",
+      "name": "Accumulated Depreciation",
+      "type": "asset",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "f03511a5-b792-49df-96a9-100d9cd41b38",
+      "code": "2000",
+      "name": "Accounts Payable — Suppliers",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true,
+      "isControlAccount": "AP"
+    },
+    {
+      "id": "862f9457-43ef-4837-8d16-f6feb36dd225",
+      "code": "2100",
+      "name": "Salaries Payable",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "27816500-822b-48d4-8ec6-67f8e9ecc30e",
+      "code": "2110",
+      "name": "Tax Payable",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "9786b5e8-ac27-4b1b-9ae5-c36042c551f3",
+      "code": "2200",
+      "name": "Deferred Fee Income",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "3a75eb17-ccb4-41f7-909d-6a1f375323f2",
+      "code": "2500",
+      "name": "Loans",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "aebc9839-2509-4e64-8086-50c78408f9ef",
+      "code": "2510",
+      "name": "Mortgage Obligations",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "a7fbc3f7-9762-4590-8141-9499588e7a25",
+      "code": "2520",
+      "name": "Lease Liabilities",
+      "type": "liability",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "509e1502-aa82-475f-a01b-2f1e60f5ad34",
+      "code": "3000",
+      "name": "Retained Earnings",
+      "type": "equity",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true,
+      "isControlAccount": "RETAINED_EARNINGS"
+    },
+    {
+      "id": "b00539f5-2935-48ce-b7f4-9765f869ebb0",
+      "code": "3100",
+      "name": "Capital Funds",
+      "type": "equity",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "50cd60eb-dd57-4d50-8c4a-5b8f551e81cb",
+      "code": "3900",
+      "name": "Opening Balance Equity",
+      "type": "equity",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "c4438517-03f6-466a-b158-7af4473ea097",
+      "code": "4000",
+      "name": "Tuition Fees",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "3bb4cb53-d230-4a0c-a186-44e917c562e6",
+      "code": "4010",
+      "name": "Registration Fees",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+      "code": "4020",
+      "name": "Accommodation Fees",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "da93199b-274a-4974-89eb-9177972f9183",
+      "code": "4030",
+      "name": "Library Fees",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "b6e7a7bd-d186-4e02-a6df-9ed9b87e7949",
+      "code": "4040",
+      "name": "Examination Fees",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "0ba78c2a-c2a8-42e6-ae38-0dabcdab3dae",
+      "code": "4050",
+      "name": "Grants",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "f53c02b7-6ceb-4b7f-a8d9-40c93be89350",
+      "code": "4060",
+      "name": "Donations",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "816814c3-5181-4c9d-a117-bc4a29013ffe",
+      "code": "4090",
+      "name": "Other Income",
+      "type": "income",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "4e631ae9-16fa-4429-9c58-322d67f433fe",
+      "code": "5000",
+      "name": "Salaries and Wages",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+      "code": "5010",
+      "name": "Electricity Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "5a449ce7-c0ce-4e21-b6bb-50e3c9169290",
+      "code": "5020",
+      "name": "Water Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "f2f5ff8b-f28a-46d1-8eff-ca25b62447d9",
+      "code": "5030",
+      "name": "Cleaning Services Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "0770450f-021a-4441-85fd-0d196052d772",
+      "code": "5040",
+      "name": "Internet Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "31c9a3c2-a9c4-4d1c-a604-9b49c1eaaac5",
+      "code": "5050",
+      "name": "Security Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "2f60fef9-e16b-473f-874e-75b92b7b1c4d",
+      "code": "5060",
+      "name": "Maintenance Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+      "code": "5070",
+      "name": "Teaching Materials & Stationery",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    },
+    {
+      "id": "e3c6bb39-6ec0-45c8-83e7-1e4eaeeed636",
+      "code": "5080",
+      "name": "Depreciation Expense",
+      "type": "expense",
+      "parentId": null,
+      "costCenterFlag": false,
+      "isActive": true
+    }
+  ],
+  "costCenters": [
+    {
+      "id": "0b03bd2f-cd40-4916-a3d8-32eaf1e38d51",
+      "code": "ACAD",
+      "name": "Academic"
+    },
+    {
+      "id": "afe61d42-089d-4980-b290-5e9e450cee3a",
+      "code": "BOARD",
+      "name": "Boarding"
+    },
+    {
+      "id": "2d33e524-60f7-4154-ac4c-762d854021a3",
+      "code": "ADMIN",
+      "name": "Administration"
+    }
+  ],
+  "periods": [
+    {
+      "id": "c506caa5-28a4-4bee-9b10-19168325dc46",
+      "name": "2026-Q2",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "status": "closed"
+    },
+    {
+      "id": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "name": "2026-Q3",
+      "startDate": "2026-07-01",
+      "endDate": "2026-09-30",
+      "status": "open"
+    }
+  ],
+  "journalEntries": [
+    {
+      "id": "ebcad75c-8e0a-40aa-a37b-4429d24928b0",
+      "refNo": "JE-2026-0001",
+      "date": "2026-07-01",
+      "description": "Opening balances for FY2026",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "manual",
+      "lines": [
+        {
+          "id": "4bacc841-5419-46dd-87db-e068e4082add",
+          "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+          "debit": 5000000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": null
+        },
+        {
+          "id": "e7b4a377-ff08-4b4a-a7f3-c9a013c836aa",
+          "accountId": "4ca774cc-10ec-4889-a051-6989e508101d",
+          "debit": 2000000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": null
+        },
+        {
+          "id": "a4177a11-3b4d-4da9-95d0-9bdd45f75b0b",
+          "accountId": "50cd60eb-dd57-4d50-8c4a-5b8f551e81cb",
+          "debit": 0,
+          "credit": 7000000,
+          "costCenterId": null,
+          "tag": null,
+          "description": null
+        }
+      ],
+      "createdBy": "bf0c417c-5ba1-4748-9353-d9d48e3358c0",
+      "createdAt": "2026-09-16T09:41:07.846Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+      "refNo": "JE-2026-0002",
+      "date": "2026-09-01",
+      "description": "Invoice to Thandiwe Sibanda (STU-2026-001)",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AR_INVOICE",
+      "lines": [
+        {
+          "id": "828adf0b-61a7-4e51-95fe-01aeae7bac73",
+          "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+          "debit": 75000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AR — Thandiwe Sibanda"
+        },
+        {
+          "id": "5d3bd091-44fb-4cae-a20d-f0439fd44d6f",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "debit": 0,
+          "credit": 45000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Tuition — Term 3"
+        },
+        {
+          "id": "79b86860-d61c-4c35-b5fb-850029463ac1",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "debit": 0,
+          "credit": 30000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Accommodation — Term 3"
+        }
+      ],
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+      "refNo": "JE-2026-0003",
+      "date": "2026-09-01",
+      "description": "Invoice to Kudzai Moyo (STU-2026-002)",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AR_INVOICE",
+      "lines": [
+        {
+          "id": "731d681f-7a1f-4aa8-8b79-29938e4d9018",
+          "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+          "debit": 75000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AR — Kudzai Moyo"
+        },
+        {
+          "id": "22703e4d-23ea-4ac0-a1d6-42ff85c9f4e5",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "debit": 0,
+          "credit": 45000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Tuition — Term 3"
+        },
+        {
+          "id": "90946239-3f53-4148-99cf-511975a96fcb",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "debit": 0,
+          "credit": 30000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Accommodation — Term 3"
+        }
+      ],
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "5b2d7631-6b37-41d6-bee8-0c9626713865",
+      "refNo": "JE-2026-0004",
+      "date": "2026-09-01",
+      "description": "Invoice to Rutendo Ncube (STU-2026-003)",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AR_INVOICE",
+      "lines": [
+        {
+          "id": "295aad6c-9100-4228-b573-6b7eadb12f67",
+          "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+          "debit": 75000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AR — Rutendo Ncube"
+        },
+        {
+          "id": "14a015d8-40e5-47ed-95fb-c7dc5fed4bc7",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "debit": 0,
+          "credit": 45000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Tuition — Term 3"
+        },
+        {
+          "id": "c17c1b68-71d5-4ca1-9faa-bb652cdff589",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "debit": 0,
+          "credit": 30000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Accommodation — Term 3"
+        }
+      ],
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "1d98335d-5270-43f8-bbfe-dbec208df95f",
+      "refNo": "JE-2026-0005",
+      "date": "2026-09-05",
+      "description": "Payment received from Thandiwe Sibanda — invoice INV-2026-0001",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AR_PAYMENT",
+      "lines": [
+        {
+          "id": "007d24df-20eb-46cc-9fe2-0a35be3f9d59",
+          "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+          "debit": 75000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Fee payment received"
+        },
+        {
+          "id": "91b465e6-ecab-4c32-b2da-66a08b99b23d",
+          "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+          "debit": 0,
+          "credit": 75000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AR — Thandiwe Sibanda"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "a93a8bb2-227c-48f2-a0e9-f50c9ae3ff97",
+      "refNo": "JE-2026-0006",
+      "date": "2026-09-06",
+      "description": "Payment received from Kudzai Moyo — invoice INV-2026-0002",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AR_PAYMENT",
+      "lines": [
+        {
+          "id": "124755b3-4728-447c-82ff-d877fc5aeb25",
+          "accountId": "84fa10e0-325e-4ecb-8b43-e40ace8a4b8d",
+          "debit": 40000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Fee payment received"
+        },
+        {
+          "id": "2248c0a9-e3ce-4709-8ec3-810a433a2f6a",
+          "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+          "debit": 0,
+          "credit": 40000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AR — Kudzai Moyo"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+      "refNo": "JE-2026-0007",
+      "date": "2026-09-02",
+      "description": "Supplier invoice from Bulawayo Stationers (Pvt) Ltd",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AP_INVOICE",
+      "lines": [
+        {
+          "id": "1e51ef79-758c-4c62-9a88-467520b5f0cb",
+          "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+          "debit": 15000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Exercise books and stationery — Term 3"
+        },
+        {
+          "id": "42015dc4-91cc-4ebd-b88f-8105e5577560",
+          "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+          "debit": 0,
+          "credit": 15000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AP — Bulawayo Stationers (Pvt) Ltd"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "42072445-a729-4fff-8195-962f2f38c3b4",
+      "refNo": "JE-2026-0008",
+      "date": "2026-09-07",
+      "description": "Payment to Bulawayo Stationers (Pvt) Ltd — invoice BILL-2026-0001",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AP_PAYMENT",
+      "lines": [
+        {
+          "id": "ccc573f7-08ff-404d-ac09-1ced8ba32d11",
+          "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+          "debit": 15000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AP — Bulawayo Stationers (Pvt) Ltd"
+        },
+        {
+          "id": "17b2530a-bab1-47f3-a56e-7c80618fd1f1",
+          "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+          "debit": 0,
+          "credit": 15000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Supplier payment"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+      "refNo": "JE-2026-0009",
+      "date": "2026-09-03",
+      "description": "Supplier invoice from ZESA Holdings",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AP_INVOICE",
+      "lines": [
+        {
+          "id": "8259c3f0-d797-4629-ac7b-ba7aa43f5914",
+          "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+          "debit": 80000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Electricity — August 2026"
+        },
+        {
+          "id": "b9e20133-8a3e-4da4-895b-eb0591f1cc41",
+          "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+          "debit": 0,
+          "credit": 80000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AP — ZESA Holdings"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z",
+      "reversalOfId": null,
+      "reversedById": null
+    },
+    {
+      "id": "2f87f0d0-e09b-497c-bed5-e6303e280265",
+      "refNo": "JE-2026-0010",
+      "date": "2026-09-08",
+      "description": "Payment to ZESA Holdings — invoice BILL-2026-0002",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "status": "posted",
+      "source": "AP_PAYMENT",
+      "lines": [
+        {
+          "id": "69ca6b4e-dbcd-48a8-a041-96d878856f16",
+          "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+          "debit": 80000,
+          "credit": 0,
+          "costCenterId": null,
+          "tag": null,
+          "description": "AP — ZESA Holdings"
+        },
+        {
+          "id": "90c3128d-b5e1-48eb-9bd9-518a9291d7a6",
+          "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+          "debit": 0,
+          "credit": 80000,
+          "costCenterId": null,
+          "tag": null,
+          "description": "Supplier payment"
+        }
+      ],
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.848Z",
+      "reversalOfId": null,
+      "reversedById": null
+    }
+  ],
+  "users": [
+    {
+      "id": "bf0c417c-5ba1-4748-9353-d9d48e3358c0",
+      "username": "admin",
+      "passwordHash": "$2a$10$BVCjBKL56hVrIJGbDSYJ2eNNeUBDBkMXQKZ6Kv8Jgbb.1kDl1lzei",
+      "role": "admin",
+      "fullName": "System Administrator",
+      "lastLogin": null,
+      "isActive": true
+    },
+    {
+      "id": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "passwordHash": "$2a$10$dUhDvJ6S53MgPgpTB/thYewvBbsa/RSACroOSKJvJ7AbjRh1wNnEu",
+      "role": "vice_chancellor",
+      "fullName": "Prof. Grace Mabhena",
+      "lastLogin": null,
+      "isActive": true
+    },
+    {
+      "id": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "passwordHash": "$2a$10$PTMRmRmDHumozgaTwCn0K.0aX6iIaGCBk6TDeodH3DB0u9rlrskfm",
+      "role": "accounts_officer",
+      "fullName": "Nomsa Dube",
+      "lastLogin": null,
+      "isActive": true
+    },
+    {
+      "id": "f14f497a-be10-4b6d-9fd1-0a06ad6acefc",
+      "username": "bursar",
+      "passwordHash": "$2a$10$HxSiRXLpdPv7O6csjY0veedthWYMACtq6amWBQexo1PqEDjrOdbfu",
+      "role": "bursar",
+      "fullName": "Tendai Ncube",
+      "lastLogin": null,
+      "isActive": true
+    },
+    {
+      "id": "ed43a41d-d25e-408f-9f5b-4ffdb6f97d60",
+      "username": "auditor",
+      "passwordHash": "$2a$10$bw2eSaDpIN3rN7zaRGl7geAYnUsaENPh3I1KtfwQrfovr718gk1z2",
+      "role": "auditor",
+      "fullName": "External Auditor",
+      "lastLogin": null,
+      "isActive": true,
+      "dataScopes": [
+        "journal",
+        "reports",
+        "audit"
+      ]
+    },
+    {
+      "id": "1d2499a3-af38-4aeb-bed0-638fee7d2c0c",
+      "username": "itadmin",
+      "passwordHash": "$2a$10$n2b2Yw/..Dc4xbM7SlzNl.bkJ1oGFIMi1QQKx/uw96n.ajS33lSLS",
+      "role": "it_admin",
+      "fullName": "IT Administrator",
+      "lastLogin": null,
+      "isActive": true
+    },
+    {
+      "id": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "passwordHash": "$2a$10$nrYWAofkuYn/umuzFuU2Gevu4Wea3kveAkV/OKkyVVqtw/O69nKDC",
+      "role": "budget_officer",
+      "fullName": "Blessing Sithole",
+      "lastLogin": null,
+      "isActive": true
+    }
+  ],
+  "students": [
+    {
+      "id": "a9019b7d-ec5e-498c-862c-e4d98981eaff",
+      "studentNumber": "STU-2026-001",
+      "name": "Thandiwe Sibanda",
+      "program": "A-Level Sciences",
+      "guardianContact": "+263 77 000 0001",
+      "guardianEmail": "sibanda.guardian@example.com",
+      "campus": "Main Campus",
+      "intake": "September 2026",
+      "academicYear": "2026/2027",
+      "status": "active"
+    },
+    {
+      "id": "250f0fea-1eb8-4049-9683-098e83ba86e2",
+      "studentNumber": "STU-2026-002",
+      "name": "Kudzai Moyo",
+      "program": "A-Level Commercials",
+      "guardianContact": "+263 77 000 0002",
+      "guardianEmail": "moyo.guardian@example.com",
+      "campus": "Main Campus",
+      "intake": "September 2026",
+      "academicYear": "2026/2027",
+      "status": "active"
+    },
+    {
+      "id": "c4bc19b7-91f3-44b6-abb4-98f88b3bb6a8",
+      "studentNumber": "STU-2026-003",
+      "name": "Rutendo Ncube",
+      "program": "O-Level",
+      "guardianContact": "+263 77 000 0003",
+      "guardianEmail": null,
+      "campus": "City Campus",
+      "intake": "January 2026",
+      "academicYear": "2025/2026",
+      "status": "active"
+    },
+    {
+      "id": "d12ddab7-2a20-428e-a3fd-00ffd2903ce3",
+      "studentNumber": "STU-2025-014",
+      "name": "Tapiwa Chirwa",
+      "program": "A-Level Sciences",
+      "guardianContact": "+263 77 000 0004",
+      "guardianEmail": null,
+      "campus": "Main Campus",
+      "intake": "September 2025",
+      "academicYear": "2025/2026",
+      "status": "deferred"
+    },
+    {
+      "id": "c18603d4-fda3-4797-bb74-07ddc1c1c693",
+      "studentNumber": "STU-2023-081",
+      "name": "Farai Gumbo",
+      "program": "A-Level Commercials",
+      "guardianContact": "+263 77 000 0005",
+      "guardianEmail": null,
+      "campus": "City Campus",
+      "intake": "January 2023",
+      "academicYear": "2022/2023",
+      "status": "graduated"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "65d24051-c1c9-4de6-bbff-10ec8d8b5510",
+      "name": "Bulawayo Stationers (Pvt) Ltd",
+      "contact": "accounts@bulawayostationers.co.zw"
+    },
+    {
+      "id": "02f54e24-b412-45f4-987a-ad33b56a1ca9",
+      "name": "ZESA Holdings",
+      "contact": "billing@zesa.co.zw"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+      "refNo": "INV-2026-0001",
+      "kind": "AR",
+      "studentId": "a9019b7d-ec5e-498c-862c-e4d98981eaff",
+      "supplierId": null,
+      "date": "2026-09-01",
+      "dueDate": "2026-09-05",
+      "lines": [
+        {
+          "id": "534c67fc-082f-415e-8c5f-98c21bce740f",
+          "description": "Tuition — Term 3",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "amount": 45000
+        },
+        {
+          "id": "fe6f3649-f681-4b05-baec-08d8452e1af9",
+          "description": "Accommodation — Term 3",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "amount": 30000
+        }
+      ],
+      "totalAmount": 75000,
+      "amountPaid": 75000,
+      "status": "paid",
+      "journalEntryId": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+      "refNo": "INV-2026-0002",
+      "kind": "AR",
+      "studentId": "250f0fea-1eb8-4049-9683-098e83ba86e2",
+      "supplierId": null,
+      "date": "2026-09-01",
+      "dueDate": "2026-09-05",
+      "lines": [
+        {
+          "id": "1f46dfbd-bcd2-4a99-837d-93282645f289",
+          "description": "Tuition — Term 3",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "amount": 45000
+        },
+        {
+          "id": "d7d0265a-8955-42b0-957a-f773ee4d742c",
+          "description": "Accommodation — Term 3",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "amount": 30000
+        }
+      ],
+      "totalAmount": 75000,
+      "amountPaid": 40000,
+      "status": "partial",
+      "journalEntryId": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "50d2df53-4962-4253-9810-42af6e17899f",
+      "refNo": "INV-2026-0003",
+      "kind": "AR",
+      "studentId": "c4bc19b7-91f3-44b6-abb4-98f88b3bb6a8",
+      "supplierId": null,
+      "date": "2026-09-01",
+      "dueDate": "2026-09-05",
+      "lines": [
+        {
+          "id": "0cd05787-b5df-4a5b-a411-43e09f72e045",
+          "description": "Tuition — Term 3",
+          "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+          "amount": 45000
+        },
+        {
+          "id": "3e50df8c-17d3-47a2-87eb-3ac99d464e1d",
+          "description": "Accommodation — Term 3",
+          "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+          "amount": 30000
+        }
+      ],
+      "totalAmount": 75000,
+      "amountPaid": 0,
+      "status": "open",
+      "journalEntryId": "5b2d7631-6b37-41d6-bee8-0c9626713865",
+      "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+      "refNo": "BILL-2026-0001",
+      "kind": "AP",
+      "studentId": null,
+      "supplierId": "65d24051-c1c9-4de6-bbff-10ec8d8b5510",
+      "date": "2026-09-02",
+      "dueDate": "2026-09-20",
+      "lines": [
+        {
+          "id": "434bfe30-2394-4069-a2e8-f4698c9206ea",
+          "description": "Exercise books and stationery — Term 3",
+          "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+          "amount": 15000
+        }
+      ],
+      "totalAmount": 15000,
+      "amountPaid": 15000,
+      "status": "paid",
+      "journalEntryId": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+      "refNo": "BILL-2026-0002",
+      "kind": "AP",
+      "studentId": null,
+      "supplierId": "02f54e24-b412-45f4-987a-ad33b56a1ca9",
+      "date": "2026-09-03",
+      "dueDate": "2026-09-25",
+      "lines": [
+        {
+          "id": "1d87fe09-b8cd-4ef0-a67f-dfb763eef2fe",
+          "description": "Electricity — August 2026",
+          "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+          "amount": 80000
+        }
+      ],
+      "totalAmount": 80000,
+      "amountPaid": 80000,
+      "status": "paid",
+      "journalEntryId": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+      "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "15b73e62-3657-4d49-98c5-307d25f064b0",
+      "refNo": "RCT-2026-0001",
+      "invoiceId": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+      "date": "2026-09-05",
+      "amount": 75000,
+      "method": "bank",
+      "bankTxnRef": "EFT-100234",
+      "journalEntryId": "1d98335d-5270-43f8-bbfe-dbec208df95f",
+      "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "312e649e-78b8-4d5a-9c77-bdf9096317fb",
+      "refNo": "RCT-2026-0002",
+      "invoiceId": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+      "date": "2026-09-06",
+      "amount": 40000,
+      "method": "cash",
+      "bankTxnRef": null,
+      "journalEntryId": "a93a8bb2-227c-48f2-a0e9-f50c9ae3ff97",
+      "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "06b3ea7a-de4d-4040-8303-dcdf6bf52384",
+      "refNo": "PMT-2026-0001",
+      "invoiceId": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+      "date": "2026-09-07",
+      "amount": 15000,
+      "method": "bank",
+      "bankTxnRef": "EFT-100240",
+      "journalEntryId": "42072445-a729-4fff-8195-962f2f38c3b4",
+      "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "approvedBy": null,
+      "createdAt": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "e292a027-bf48-44ce-bc62-f01c7ef0833f",
+      "refNo": "PMT-2026-0002",
+      "invoiceId": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+      "date": "2026-09-08",
+      "amount": 80000,
+      "method": "bank",
+      "bankTxnRef": "EFT-100255",
+      "journalEntryId": "2f87f0d0-e09b-497c-bed5-e6303e280265",
+      "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "createdAt": "2026-09-16T09:41:07.848Z"
+    }
+  ],
+  "auditLog": [
+    {
+      "id": "cd02cd07-6b65-41f8-a7ea-39ec3e730ef2",
+      "entityType": "JournalEntry",
+      "entityId": "ebcad75c-8e0a-40aa-a37b-4429d24928b0",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "ebcad75c-8e0a-40aa-a37b-4429d24928b0",
+        "refNo": "JE-2026-0001",
+        "date": "2026-07-01",
+        "description": "Opening balances for FY2026",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "manual",
+        "lines": [
+          {
+            "id": "4bacc841-5419-46dd-87db-e068e4082add",
+            "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+            "debit": 5000000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": null
+          },
+          {
+            "id": "e7b4a377-ff08-4b4a-a7f3-c9a013c836aa",
+            "accountId": "4ca774cc-10ec-4889-a051-6989e508101d",
+            "debit": 2000000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": null
+          },
+          {
+            "id": "a4177a11-3b4d-4da9-95d0-9bdd45f75b0b",
+            "accountId": "50cd60eb-dd57-4d50-8c4a-5b8f551e81cb",
+            "debit": 0,
+            "credit": 7000000,
+            "costCenterId": null,
+            "tag": null,
+            "description": null
+          }
+        ],
+        "createdBy": "bf0c417c-5ba1-4748-9353-d9d48e3358c0",
+        "createdAt": "2026-09-16T09:41:07.846Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bf0c417c-5ba1-4748-9353-d9d48e3358c0",
+      "username": "admin",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.846Z"
+    },
+    {
+      "id": "f5126813-6db8-4054-922b-1b1b5b251932",
+      "entityType": "JournalEntry",
+      "entityId": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+        "refNo": "JE-2026-0002",
+        "date": "2026-09-01",
+        "description": "Invoice to Thandiwe Sibanda (STU-2026-001)",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AR_INVOICE",
+        "lines": [
+          {
+            "id": "828adf0b-61a7-4e51-95fe-01aeae7bac73",
+            "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+            "debit": 75000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AR — Thandiwe Sibanda"
+          },
+          {
+            "id": "5d3bd091-44fb-4cae-a20d-f0439fd44d6f",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "debit": 0,
+            "credit": 45000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Tuition — Term 3"
+          },
+          {
+            "id": "79b86860-d61c-4c35-b5fb-850029463ac1",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "debit": 0,
+            "credit": 30000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Accommodation — Term 3"
+          }
+        ],
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "5f154503-7527-4060-8869-eb87d2ec7f28",
+      "entityType": "Invoice",
+      "entityId": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+        "refNo": "INV-2026-0001",
+        "kind": "AR",
+        "studentId": "a9019b7d-ec5e-498c-862c-e4d98981eaff",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "534c67fc-082f-415e-8c5f-98c21bce740f",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "fe6f3649-f681-4b05-baec-08d8452e1af9",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 75000,
+        "status": "paid",
+        "journalEntryId": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "a9d4deb1-bdb9-49f8-a56e-41d7e4fc3c0d",
+      "entityType": "JournalEntry",
+      "entityId": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+        "refNo": "JE-2026-0003",
+        "date": "2026-09-01",
+        "description": "Invoice to Kudzai Moyo (STU-2026-002)",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AR_INVOICE",
+        "lines": [
+          {
+            "id": "731d681f-7a1f-4aa8-8b79-29938e4d9018",
+            "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+            "debit": 75000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AR — Kudzai Moyo"
+          },
+          {
+            "id": "22703e4d-23ea-4ac0-a1d6-42ff85c9f4e5",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "debit": 0,
+            "credit": 45000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Tuition — Term 3"
+          },
+          {
+            "id": "90946239-3f53-4148-99cf-511975a96fcb",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "debit": 0,
+            "credit": 30000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Accommodation — Term 3"
+          }
+        ],
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "ad187ccb-5c53-47aa-a960-8ce356538c9c",
+      "entityType": "Invoice",
+      "entityId": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+        "refNo": "INV-2026-0002",
+        "kind": "AR",
+        "studentId": "250f0fea-1eb8-4049-9683-098e83ba86e2",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "1f46dfbd-bcd2-4a99-837d-93282645f289",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "d7d0265a-8955-42b0-957a-f773ee4d742c",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 40000,
+        "status": "partial",
+        "journalEntryId": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "b4374f1e-2f30-45ef-a27b-1d6a58355680",
+      "entityType": "JournalEntry",
+      "entityId": "5b2d7631-6b37-41d6-bee8-0c9626713865",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "5b2d7631-6b37-41d6-bee8-0c9626713865",
+        "refNo": "JE-2026-0004",
+        "date": "2026-09-01",
+        "description": "Invoice to Rutendo Ncube (STU-2026-003)",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AR_INVOICE",
+        "lines": [
+          {
+            "id": "295aad6c-9100-4228-b573-6b7eadb12f67",
+            "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+            "debit": 75000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AR — Rutendo Ncube"
+          },
+          {
+            "id": "14a015d8-40e5-47ed-95fb-c7dc5fed4bc7",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "debit": 0,
+            "credit": 45000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Tuition — Term 3"
+          },
+          {
+            "id": "c17c1b68-71d5-4ca1-9faa-bb652cdff589",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "debit": 0,
+            "credit": 30000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Accommodation — Term 3"
+          }
+        ],
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "df9bd629-4005-400f-810f-551fcac93350",
+      "entityType": "Invoice",
+      "entityId": "50d2df53-4962-4253-9810-42af6e17899f",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "50d2df53-4962-4253-9810-42af6e17899f",
+        "refNo": "INV-2026-0003",
+        "kind": "AR",
+        "studentId": "c4bc19b7-91f3-44b6-abb4-98f88b3bb6a8",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "0cd05787-b5df-4a5b-a411-43e09f72e045",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "3e50df8c-17d3-47a2-87eb-3ac99d464e1d",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 0,
+        "status": "open",
+        "journalEntryId": "5b2d7631-6b37-41d6-bee8-0c9626713865",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "36168358-08f0-478e-b267-c9f808746bf9",
+      "entityType": "JournalEntry",
+      "entityId": "1d98335d-5270-43f8-bbfe-dbec208df95f",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "1d98335d-5270-43f8-bbfe-dbec208df95f",
+        "refNo": "JE-2026-0005",
+        "date": "2026-09-05",
+        "description": "Payment received from Thandiwe Sibanda — invoice INV-2026-0001",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AR_PAYMENT",
+        "lines": [
+          {
+            "id": "007d24df-20eb-46cc-9fe2-0a35be3f9d59",
+            "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+            "debit": 75000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Fee payment received"
+          },
+          {
+            "id": "91b465e6-ecab-4c32-b2da-66a08b99b23d",
+            "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+            "debit": 0,
+            "credit": 75000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AR — Thandiwe Sibanda"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "84ed9e84-707e-48e6-b090-2857ad1218f2",
+      "entityType": "Payment",
+      "entityId": "15b73e62-3657-4d49-98c5-307d25f064b0",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "15b73e62-3657-4d49-98c5-307d25f064b0",
+        "refNo": "RCT-2026-0001",
+        "invoiceId": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+        "date": "2026-09-05",
+        "amount": 75000,
+        "method": "bank",
+        "bankTxnRef": "EFT-100234",
+        "journalEntryId": "1d98335d-5270-43f8-bbfe-dbec208df95f",
+        "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "4220d8bd-e6f6-4166-8ea2-05adb097f60c",
+      "entityType": "Invoice",
+      "entityId": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+      "action": "UPDATE_BALANCE",
+      "before": {
+        "id": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+        "refNo": "INV-2026-0001",
+        "kind": "AR",
+        "studentId": "a9019b7d-ec5e-498c-862c-e4d98981eaff",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "534c67fc-082f-415e-8c5f-98c21bce740f",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "fe6f3649-f681-4b05-baec-08d8452e1af9",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 0,
+        "status": "open",
+        "journalEntryId": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "after": {
+        "id": "1f15569c-cede-44ab-bcb8-b7b3ce7765a3",
+        "refNo": "INV-2026-0001",
+        "kind": "AR",
+        "studentId": "a9019b7d-ec5e-498c-862c-e4d98981eaff",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "534c67fc-082f-415e-8c5f-98c21bce740f",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "fe6f3649-f681-4b05-baec-08d8452e1af9",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 75000,
+        "status": "paid",
+        "journalEntryId": "29394bc3-4f44-4b5f-a42f-76c5c493d756",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "f7aed821-41d2-4fc3-a5ee-8230b54a7503",
+      "entityType": "JournalEntry",
+      "entityId": "a93a8bb2-227c-48f2-a0e9-f50c9ae3ff97",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "a93a8bb2-227c-48f2-a0e9-f50c9ae3ff97",
+        "refNo": "JE-2026-0006",
+        "date": "2026-09-06",
+        "description": "Payment received from Kudzai Moyo — invoice INV-2026-0002",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AR_PAYMENT",
+        "lines": [
+          {
+            "id": "124755b3-4728-447c-82ff-d877fc5aeb25",
+            "accountId": "84fa10e0-325e-4ecb-8b43-e40ace8a4b8d",
+            "debit": 40000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Fee payment received"
+          },
+          {
+            "id": "2248c0a9-e3ce-4709-8ec3-810a433a2f6a",
+            "accountId": "8049b331-3498-47bc-b1d1-c52e7132ab7f",
+            "debit": 0,
+            "credit": 40000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AR — Kudzai Moyo"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "ffe05ba3-a4e4-4fc0-b71f-8cf33b3fb26f",
+      "entityType": "Payment",
+      "entityId": "312e649e-78b8-4d5a-9c77-bdf9096317fb",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "312e649e-78b8-4d5a-9c77-bdf9096317fb",
+        "refNo": "RCT-2026-0002",
+        "invoiceId": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+        "date": "2026-09-06",
+        "amount": 40000,
+        "method": "cash",
+        "bankTxnRef": null,
+        "journalEntryId": "a93a8bb2-227c-48f2-a0e9-f50c9ae3ff97",
+        "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "873e828a-d802-4b25-830a-9bfa03384503",
+      "entityType": "Invoice",
+      "entityId": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+      "action": "UPDATE_BALANCE",
+      "before": {
+        "id": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+        "refNo": "INV-2026-0002",
+        "kind": "AR",
+        "studentId": "250f0fea-1eb8-4049-9683-098e83ba86e2",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "1f46dfbd-bcd2-4a99-837d-93282645f289",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "d7d0265a-8955-42b0-957a-f773ee4d742c",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 0,
+        "status": "open",
+        "journalEntryId": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "after": {
+        "id": "a96d8e0e-f773-4649-9ba9-2addc7d4c7e3",
+        "refNo": "INV-2026-0002",
+        "kind": "AR",
+        "studentId": "250f0fea-1eb8-4049-9683-098e83ba86e2",
+        "supplierId": null,
+        "date": "2026-09-01",
+        "dueDate": "2026-09-05",
+        "lines": [
+          {
+            "id": "1f46dfbd-bcd2-4a99-837d-93282645f289",
+            "description": "Tuition — Term 3",
+            "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+            "amount": 45000
+          },
+          {
+            "id": "d7d0265a-8955-42b0-957a-f773ee4d742c",
+            "description": "Accommodation — Term 3",
+            "accountId": "b4f2529b-6579-4ee8-b29d-c0b4e0cd17d1",
+            "amount": 30000
+          }
+        ],
+        "totalAmount": 75000,
+        "amountPaid": 40000,
+        "status": "partial",
+        "journalEntryId": "f78d7e32-db4b-4356-9cd2-3e96196abd2b",
+        "createdBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "537abf07-dc39-46ea-bd69-5c3dccaa2e69",
+      "entityType": "JournalEntry",
+      "entityId": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+        "refNo": "JE-2026-0007",
+        "date": "2026-09-02",
+        "description": "Supplier invoice from Bulawayo Stationers (Pvt) Ltd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AP_INVOICE",
+        "lines": [
+          {
+            "id": "1e51ef79-758c-4c62-9a88-467520b5f0cb",
+            "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+            "debit": 15000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Exercise books and stationery — Term 3"
+          },
+          {
+            "id": "42015dc4-91cc-4ebd-b88f-8105e5577560",
+            "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+            "debit": 0,
+            "credit": 15000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AP — Bulawayo Stationers (Pvt) Ltd"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "63e5dfbf-cee3-4047-b974-f3b6317b3676",
+      "entityType": "Invoice",
+      "entityId": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+        "refNo": "BILL-2026-0001",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "65d24051-c1c9-4de6-bbff-10ec8d8b5510",
+        "date": "2026-09-02",
+        "dueDate": "2026-09-20",
+        "lines": [
+          {
+            "id": "434bfe30-2394-4069-a2e8-f4698c9206ea",
+            "description": "Exercise books and stationery — Term 3",
+            "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+            "amount": 15000
+          }
+        ],
+        "totalAmount": 15000,
+        "amountPaid": 15000,
+        "status": "paid",
+        "journalEntryId": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Payable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "0e9d0d39-ec9b-4ece-83d3-6d6ffd95ed83",
+      "entityType": "JournalEntry",
+      "entityId": "42072445-a729-4fff-8195-962f2f38c3b4",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "42072445-a729-4fff-8195-962f2f38c3b4",
+        "refNo": "JE-2026-0008",
+        "date": "2026-09-07",
+        "description": "Payment to Bulawayo Stationers (Pvt) Ltd — invoice BILL-2026-0001",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AP_PAYMENT",
+        "lines": [
+          {
+            "id": "ccc573f7-08ff-404d-ac09-1ced8ba32d11",
+            "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+            "debit": 15000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AP — Bulawayo Stationers (Pvt) Ltd"
+          },
+          {
+            "id": "17b2530a-bab1-47f3-a56e-7c80618fd1f1",
+            "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+            "debit": 0,
+            "credit": 15000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Supplier payment"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "7b21faea-18f8-4c12-a6d2-ee99ce8fe49f",
+      "entityType": "Payment",
+      "entityId": "06b3ea7a-de4d-4040-8303-dcdf6bf52384",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "06b3ea7a-de4d-4040-8303-dcdf6bf52384",
+        "refNo": "PMT-2026-0001",
+        "invoiceId": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+        "date": "2026-09-07",
+        "amount": 15000,
+        "method": "bank",
+        "bankTxnRef": "EFT-100240",
+        "journalEntryId": "42072445-a729-4fff-8195-962f2f38c3b4",
+        "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "approvedBy": null,
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "fcb039f4-e213-4a12-beb5-fcef195b7986",
+      "entityType": "Invoice",
+      "entityId": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+      "action": "UPDATE_BALANCE",
+      "before": {
+        "id": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+        "refNo": "BILL-2026-0001",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "65d24051-c1c9-4de6-bbff-10ec8d8b5510",
+        "date": "2026-09-02",
+        "dueDate": "2026-09-20",
+        "lines": [
+          {
+            "id": "434bfe30-2394-4069-a2e8-f4698c9206ea",
+            "description": "Exercise books and stationery — Term 3",
+            "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+            "amount": 15000
+          }
+        ],
+        "totalAmount": 15000,
+        "amountPaid": 0,
+        "status": "open",
+        "journalEntryId": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "after": {
+        "id": "482d2adb-e21d-424f-b1c1-479f5ba1b9e1",
+        "refNo": "BILL-2026-0001",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "65d24051-c1c9-4de6-bbff-10ec8d8b5510",
+        "date": "2026-09-02",
+        "dueDate": "2026-09-20",
+        "lines": [
+          {
+            "id": "434bfe30-2394-4069-a2e8-f4698c9206ea",
+            "description": "Exercise books and stationery — Term 3",
+            "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+            "amount": 15000
+          }
+        ],
+        "totalAmount": 15000,
+        "amountPaid": 15000,
+        "status": "paid",
+        "journalEntryId": "e5938053-8da8-43e5-9056-7f4e6fc56cfa",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Payable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "14639438-77e0-42cb-8336-bde98cdbb3d5",
+      "entityType": "JournalEntry",
+      "entityId": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+        "refNo": "JE-2026-0009",
+        "date": "2026-09-03",
+        "description": "Supplier invoice from ZESA Holdings",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AP_INVOICE",
+        "lines": [
+          {
+            "id": "8259c3f0-d797-4629-ac7b-ba7aa43f5914",
+            "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+            "debit": 80000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Electricity — August 2026"
+          },
+          {
+            "id": "b9e20133-8a3e-4da4-895b-eb0591f1cc41",
+            "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+            "debit": 0,
+            "credit": 80000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AP — ZESA Holdings"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "21d5e644-2c2a-4944-8dae-008f8fd83d9f",
+      "entityType": "Invoice",
+      "entityId": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+        "refNo": "BILL-2026-0002",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "02f54e24-b412-45f4-987a-ad33b56a1ca9",
+        "date": "2026-09-03",
+        "dueDate": "2026-09-25",
+        "lines": [
+          {
+            "id": "1d87fe09-b8cd-4ef0-a67f-dfb763eef2fe",
+            "description": "Electricity — August 2026",
+            "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+            "amount": 80000
+          }
+        ],
+        "totalAmount": 80000,
+        "amountPaid": 80000,
+        "status": "paid",
+        "journalEntryId": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Payable",
+      "timestamp": "2026-09-16T09:41:07.847Z"
+    },
+    {
+      "id": "2956ebae-2a37-4d78-98ad-a05c7a6d9e90",
+      "entityType": "JournalEntry",
+      "entityId": "2f87f0d0-e09b-497c-bed5-e6303e280265",
+      "action": "POST",
+      "before": null,
+      "after": {
+        "id": "2f87f0d0-e09b-497c-bed5-e6303e280265",
+        "refNo": "JE-2026-0010",
+        "date": "2026-09-08",
+        "description": "Payment to ZESA Holdings — invoice BILL-2026-0002",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "status": "posted",
+        "source": "AP_PAYMENT",
+        "lines": [
+          {
+            "id": "69ca6b4e-dbcd-48a8-a041-96d878856f16",
+            "accountId": "f03511a5-b792-49df-96a9-100d9cd41b38",
+            "debit": 80000,
+            "credit": 0,
+            "costCenterId": null,
+            "tag": null,
+            "description": "AP — ZESA Holdings"
+          },
+          {
+            "id": "90c3128d-b5e1-48eb-9bd9-518a9291d7a6",
+            "accountId": "0707da79-7d90-4bf5-87e1-00b4e8343198",
+            "debit": 0,
+            "credit": 80000,
+            "costCenterId": null,
+            "tag": null,
+            "description": "Supplier payment"
+          }
+        ],
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "reversalOfId": null,
+        "reversedById": null
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "General Ledger",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "4f4366a5-fe92-4141-ac61-520ff00a9f8e",
+      "entityType": "Payment",
+      "entityId": "e292a027-bf48-44ce-bc62-f01c7ef0833f",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "e292a027-bf48-44ce-bc62-f01c7ef0833f",
+        "refNo": "PMT-2026-0002",
+        "invoiceId": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+        "date": "2026-09-08",
+        "amount": 80000,
+        "method": "bank",
+        "bankTxnRef": "EFT-100255",
+        "journalEntryId": "2f87f0d0-e09b-497c-bed5-e6303e280265",
+        "postedBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "createdAt": "2026-09-16T09:41:07.848Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Receivable",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "165f2056-0f76-440e-9ce7-dbecf66ddef6",
+      "entityType": "Invoice",
+      "entityId": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+      "action": "UPDATE_BALANCE",
+      "before": {
+        "id": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+        "refNo": "BILL-2026-0002",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "02f54e24-b412-45f4-987a-ad33b56a1ca9",
+        "date": "2026-09-03",
+        "dueDate": "2026-09-25",
+        "lines": [
+          {
+            "id": "1d87fe09-b8cd-4ef0-a67f-dfb763eef2fe",
+            "description": "Electricity — August 2026",
+            "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+            "amount": 80000
+          }
+        ],
+        "totalAmount": 80000,
+        "amountPaid": 0,
+        "status": "open",
+        "journalEntryId": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "after": {
+        "id": "a8ef115c-40cb-491e-b963-0fef2ad29803",
+        "refNo": "BILL-2026-0002",
+        "kind": "AP",
+        "studentId": null,
+        "supplierId": "02f54e24-b412-45f4-987a-ad33b56a1ca9",
+        "date": "2026-09-03",
+        "dueDate": "2026-09-25",
+        "lines": [
+          {
+            "id": "1d87fe09-b8cd-4ef0-a67f-dfb763eef2fe",
+            "description": "Electricity — August 2026",
+            "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+            "amount": 80000
+          }
+        ],
+        "totalAmount": 80000,
+        "amountPaid": 80000,
+        "status": "paid",
+        "journalEntryId": "98599891-feaa-4d5d-8236-05ea24fc78e7",
+        "createdBy": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+        "createdAt": "2026-09-16T09:41:07.847Z"
+      },
+      "userId": "bcd33b0a-949e-47d2-ada7-073aaf7472a2",
+      "username": "officer",
+      "ipAddress": null,
+      "module": "Accounts Payable",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "62769454-617e-4f99-969e-93a7767d5dc9",
+      "entityType": "Budget",
+      "entityId": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "locked",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": "2026-09-16T09:41:07.848Z",
+        "revisionOf": null
+      },
+      "userId": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "fbb56876-b229-4955-8cc0-32e860b48584",
+      "entityType": "Budget",
+      "entityId": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "action": "SUBMIT",
+      "before": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "draft",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "locked",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": "2026-09-16T09:41:07.848Z",
+        "revisionOf": null
+      },
+      "userId": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "71a74029-6ffb-4369-b6fa-d82646c050ab",
+      "entityType": "Budget",
+      "entityId": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "action": "REVIEW",
+      "before": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "submitted",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "locked",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": "2026-09-16T09:41:07.848Z",
+        "revisionOf": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "15f1a43c-d5bb-4691-9d30-38eff7155d7d",
+      "entityType": "Budget",
+      "entityId": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "action": "APPROVE",
+      "before": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "reviewed",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "locked",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": "2026-09-16T09:41:07.848Z",
+        "revisionOf": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "778f92a6-4785-4bf1-839c-3f9cb780d139",
+      "entityType": "Budget",
+      "entityId": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "action": "LOCK",
+      "before": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "approved",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+        "refNo": "BUD-2026-0001",
+        "name": "Q3 Electricity — Main Campus",
+        "costCenterId": null,
+        "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 70000,
+        "status": "locked",
+        "notes": "Based on last year's Q3 usage plus 10%.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "approvedAt": "2026-09-16T09:41:07.848Z",
+        "lockedAt": "2026-09-16T09:41:07.848Z",
+        "revisionOf": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "61293b8e-03db-4b61-94de-95987d7f4145",
+      "entityType": "Budget",
+      "entityId": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+        "refNo": "BUD-2026-0002",
+        "name": "Q3 Tuition Fee Income",
+        "costCenterId": null,
+        "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 1200000,
+        "status": "reviewed",
+        "notes": "Projected from enrolment numbers.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "userId": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "637b3679-2014-4e92-8ea9-7249ffe9267c",
+      "entityType": "Budget",
+      "entityId": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+      "action": "SUBMIT",
+      "before": {
+        "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+        "refNo": "BUD-2026-0002",
+        "name": "Q3 Tuition Fee Income",
+        "costCenterId": null,
+        "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 1200000,
+        "status": "draft",
+        "notes": "Projected from enrolment numbers.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+        "refNo": "BUD-2026-0002",
+        "name": "Q3 Tuition Fee Income",
+        "costCenterId": null,
+        "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 1200000,
+        "status": "reviewed",
+        "notes": "Projected from enrolment numbers.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "userId": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "99a9ee97-87c3-4579-ab81-a3930174516f",
+      "entityType": "Budget",
+      "entityId": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+      "action": "REVIEW",
+      "before": {
+        "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+        "refNo": "BUD-2026-0002",
+        "name": "Q3 Tuition Fee Income",
+        "costCenterId": null,
+        "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 1200000,
+        "status": "submitted",
+        "notes": "Projected from enrolment numbers.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "after": {
+        "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+        "refNo": "BUD-2026-0002",
+        "name": "Q3 Tuition Fee Income",
+        "costCenterId": null,
+        "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 1200000,
+        "status": "reviewed",
+        "notes": "Projected from enrolment numbers.",
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": "2026-09-16T09:41:07.848Z",
+        "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+        "reviewedAt": "2026-09-16T09:41:07.848Z",
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "userId": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "username": "vc",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    },
+    {
+      "id": "2694a2d8-5a9d-4400-b803-75a6767aae39",
+      "entityType": "Budget",
+      "entityId": "199fae25-e490-4193-9920-8ff015074e8b",
+      "action": "CREATE",
+      "before": null,
+      "after": {
+        "id": "199fae25-e490-4193-9920-8ff015074e8b",
+        "refNo": "BUD-2026-0003",
+        "name": "Q3 Teaching Materials & Stationery",
+        "costCenterId": null,
+        "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+        "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+        "amount": 25000,
+        "status": "draft",
+        "notes": null,
+        "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+        "createdAt": "2026-09-16T09:41:07.848Z",
+        "submittedAt": null,
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "approvedBy": null,
+        "approvedAt": null,
+        "lockedAt": null,
+        "revisionOf": null
+      },
+      "userId": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "username": "budgetofficer",
+      "ipAddress": null,
+      "module": "Budgeting",
+      "timestamp": "2026-09-16T09:41:07.848Z"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "b65e4cc0-61d2-4c74-ab6f-496d1aac1baf",
+      "refNo": "BUD-2026-0001",
+      "name": "Q3 Electricity — Main Campus",
+      "costCenterId": null,
+      "accountId": "e2bf62a5-8992-46bf-b58e-56ae606085dd",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "amount": 70000,
+      "status": "locked",
+      "notes": "Based on last year's Q3 usage plus 10%.",
+      "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "createdAt": "2026-09-16T09:41:07.848Z",
+      "submittedAt": "2026-09-16T09:41:07.848Z",
+      "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "reviewedAt": "2026-09-16T09:41:07.848Z",
+      "approvedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "approvedAt": "2026-09-16T09:41:07.848Z",
+      "lockedAt": "2026-09-16T09:41:07.848Z",
+      "revisionOf": null
+    },
+    {
+      "id": "f2812e47-8747-4182-ab36-d2b3151ffa56",
+      "refNo": "BUD-2026-0002",
+      "name": "Q3 Tuition Fee Income",
+      "costCenterId": null,
+      "accountId": "c4438517-03f6-466a-b158-7af4473ea097",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "amount": 1200000,
+      "status": "reviewed",
+      "notes": "Projected from enrolment numbers.",
+      "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "createdAt": "2026-09-16T09:41:07.848Z",
+      "submittedAt": "2026-09-16T09:41:07.848Z",
+      "reviewedBy": "7d0724c8-3b6e-4a44-8245-073b6f29eb86",
+      "reviewedAt": "2026-09-16T09:41:07.848Z",
+      "approvedBy": null,
+      "approvedAt": null,
+      "lockedAt": null,
+      "revisionOf": null
+    },
+    {
+      "id": "199fae25-e490-4193-9920-8ff015074e8b",
+      "refNo": "BUD-2026-0003",
+      "name": "Q3 Teaching Materials & Stationery",
+      "costCenterId": null,
+      "accountId": "aa1ba3f1-4278-43a4-9f2f-9b02a340e04a",
+      "periodId": "18b97ba1-7494-4feb-a1aa-a1bbda8b83a3",
+      "amount": 25000,
+      "status": "draft",
+      "notes": null,
+      "createdBy": "9d0217ad-8979-45c7-8eea-662e433afff0",
+      "createdAt": "2026-09-16T09:41:07.848Z",
+      "submittedAt": null,
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "lockedAt": null,
+      "revisionOf": null
+    }
+  ],
+  "counters": {
+    "journal": 10,
+    "arInvoice": 3,
+    "apInvoice": 2,
+    "arPayment": 2,
+    "apPayment": 2,
+    "budget": 3
+  }
+}

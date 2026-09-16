@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Budgeting — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Budgeting</h1><div class="sub">Annual and departmental budgets with an approval workflow</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="tabs">
+        <button class="active" data-tab="budgets">Budgets</button>
+        <button data-tab="vsactual">Budget vs. Actual</button>
+      </div>
+
+      <div class="panel" data-panel="budgets">
+        <div class="panel-row" id="newBudgetToggleRow">
+          <h2>All budgets</h2>
+          <button class="small" id="toggleNewBudget">+ New budget</button>
+        </div>
+
+        <form id="budgetForm" style="display:none; margin-bottom:16px;">
+          <div class="grid-2">
+            <div class="field"><label>Name</label><input id="bName" placeholder="e.g. Q4 Electricity — Main Campus" required /></div>
+            <div class="field"><label>Account</label><select id="bAccount" required></select></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Period</label><select id="bPeriod" required></select></div>
+            <div class="field"><label>Amount</label><input id="bAmount" placeholder="0.00" inputmode="decimal" required /></div>
+          </div>
+          <div class="field"><label>Notes (optional)</label><input id="bNotes" placeholder="Basis for this figure" /></div>
+          <button type="submit">Create budget (draft)</button>
+        </form>
+
+        <div class="field" style="max-width:240px;"><label>Filter by status</label>
+          <select id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="draft">Draft</option>
+            <option value="submitted">Submitted</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="approved">Approved</option>
+            <option value="locked">Locked</option>
+          </select>
+        </div>
+
+        <table class="ledger" id="budgetsTable">
+          <thead><tr><th>Ref No</th><th>Name</th><th>Account</th><th>Period</th><th class="num">Amount</th><th>Status</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="muted" style="margin-top:10px;">
+          Workflow: <b>Draft</b> → <b>Submitted</b> → <b>Reviewed</b> → <b>Approved</b> → <b>Locked</b>.
+          A submitted or reviewed budget can be rejected back to draft. Each step needs a different permission —
+          see the <a href="users.html">permission matrix</a>.
+        </div>
+      </div>
+
+      <div class="panel" data-panel="vsactual" style="display:none;">
+        <div class="panel-row"><h2>Budget vs. Actual</h2></div>
+        <div class="muted" style="margin-bottom:12px;">Only <b>approved</b> and <b>locked</b> budgets are included — a draft or submitted figure isn't a commitment yet.</div>
+        <table class="ledger">
+          <thead><tr><th>Ref No</th><th>Name</th><th>Account</th><th class="num">Budgeted</th><th class="num">Actual</th><th class="num">Variance</th></tr></thead>
+          <tbody id="vsActualBody"></tbody>
+          <tfoot><tr><td colspan="3">Total</td><td class="num" id="vaTotalBudgeted"></td><td class="num" id="vaTotalActual"></td><td class="num" id="vaTotalVariance"></td></tr></tfoot>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("budgeting.html");
+    const alertHost = document.getElementById("alertHost");
+    let accounts = [], periods = [];
+
+    document.querySelectorAll(".tabs button").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll("[data-panel]").forEach((p) => (p.style.display = p.dataset.panel === btn.dataset.tab ? "block" : "none"));
+        if (btn.dataset.tab === "vsactual") loadVsActual();
+      })
+    );
+
+    if (!roleCan("createBudget")) document.getElementById("newBudgetToggleRow").querySelector("button").style.display = "none";
+
+    document.getElementById("toggleNewBudget").addEventListener("click", () => {
+      const f = document.getElementById("budgetForm");
+      f.style.display = f.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("budgetForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api("/api/budgets", {
+          method: "POST",
+          body: {
+            name: document.getElementById("bName").value.trim(),
+            accountId: document.getElementById("bAccount").value,
+            periodId: document.getElementById("bPeriod").value,
+            amount: toCents(document.getElementById("bAmount").value || "0"),
+            notes: document.getElementById("bNotes").value.trim() || undefined,
+          },
+        });
+        e.target.reset();
+        e.target.style.display = "none";
+        showAlert(alertHost, "Budget created as a draft.", "ok");
+        await loadBudgets();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    function periodName(id) {
+      return periods.find((p) => p.id === id)?.name || "—";
+    }
+    function accountLabel(id) {
+      const a = accounts.find((x) => x.id === id);
+      return a ? `${a.code} — ${a.name}` : "—";
+    }
+
+    // What action (if any) the current user's role can take on a budget at
+    // this status. Mirrors backend/src/rbac-policy.ts's budget:* grants —
+    // hiding a button here is a UX nicety; the server enforces the real rule.
+    function actionsFor(budget) {
+      const actions = [];
+      if (budget.status === "draft" && roleCan("submitBudget")) actions.push({ label: "Submit", action: "submit", cls: "" });
+      if (budget.status === "submitted" && roleCan("reviewBudget")) {
+        actions.push({ label: "Mark reviewed", action: "review", cls: "" });
+        actions.push({ label: "Reject", action: "reject", cls: "secondary" });
+      }
+      if (budget.status === "reviewed" && roleCan("approveBudget")) {
+        actions.push({ label: "Approve", action: "approve", cls: "" });
+        actions.push({ label: "Reject", action: "reject", cls: "secondary" });
+      }
+      if (budget.status === "approved" && roleCan("approveBudget")) actions.push({ label: "Lock", action: "lock", cls: "accent" });
+      return actions;
+    }
+
+    async function loadBudgets() {
+      const status = document.getElementById("statusFilter").value;
+      const { budgets } = await api("/api/budgets", { params: { status } });
+      const body = document.querySelector("#budgetsTable tbody");
+      body.innerHTML = budgets.length
+        ? budgets
+            .map(
+              (b) => `<tr>
+                <td class="mono">${escapeHtml(b.refNo)}</td>
+                <td>${escapeHtml(b.name)}${b.notes ? `<div class="muted">${escapeHtml(b.notes)}</div>` : ""}</td>
+                <td class="muted">${escapeHtml(accountLabel(b.accountId))}</td>
+                <td class="muted">${escapeHtml(periodName(b.periodId))}</td>
+                <td class="num">${money(b.amount)}</td>
+                <td><span class="${pillClass(b.status === "locked" || b.status === "approved" ? "posted" : b.status === "draft" ? "open" : "open")}">${b.status}</span></td>
+                <td style="white-space:nowrap;">${actionsFor(b)
+                  .map((a) => `<button class="small ${a.cls}" data-action="${a.action}" data-id="${b.id}">${a.label}</button>`)
+                  .join(" ")}</td>
+              </tr>`
+            )
+            .join("")
+        : `<tr><td colspan="7" class="empty">No budgets match this filter.</td></tr>`;
+
+      body.querySelectorAll("[data-action]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          const { action, id } = btn.dataset;
+          try {
+            if (action === "reject") {
+              const reason = prompt("Reason for rejecting this budget (optional):") || undefined;
+              await api(`/api/budgets/${id}/reject`, { method: "POST", body: { reason } });
+            } else {
+              await api(`/api/budgets/${id}/${action}`, { method: "POST", body: {} });
+            }
+            await loadBudgets();
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+    }
+    document.getElementById("statusFilter").addEventListener("change", loadBudgets);
+
+    async function loadVsActual() {
+      try {
+        const { rows, totals } = await api("/api/budgets/vs-actual");
+        document.getElementById("vsActualBody").innerHTML = rows.length
+          ? rows
+              .map(
+                (r) => `<tr>
+                <td class="mono">${escapeHtml(r.refNo)}</td>
+                <td>${escapeHtml(r.name)}</td>
+                <td class="muted">${escapeHtml(r.accountCode)} — ${escapeHtml(r.accountName)}</td>
+                <td class="num">${money(r.budgeted)}</td>
+                <td class="num">${money(r.actual)}</td>
+                <td class="num" style="color:${r.variance < 0 ? "var(--danger)" : "var(--success)"};">${r.variance >= 0 ? "+" : ""}${money(r.variance)}${r.variancePercent !== null ? ` (${r.variancePercent >= 0 ? "+" : ""}${r.variancePercent}%)` : ""}</td>
+              </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="6" class="empty">No approved or locked budgets yet.</td></tr>`;
+        document.getElementById("vaTotalBudgeted").textContent = money(totals.budgeted);
+        document.getElementById("vaTotalActual").textContent = money(totals.actual);
+        document.getElementById("vaTotalVariance").textContent = (totals.variance >= 0 ? "+" : "") + money(totals.variance);
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+
+    (async function init() {
+      try {
+        const [accRes, perRes] = await Promise.all([api("/api/accounts"), api("/api/periods")]);
+        accounts = accRes.accounts.filter((a) => a.type === "income" || a.type === "expense");
+        periods = perRes.periods;
+        document.getElementById("bAccount").innerHTML = accounts.map((a) => `<option value="${a.id}">${escapeHtml(a.code)} — ${escapeHtml(a.name)}</option>`).join("");
+        document.getElementById("bPeriod").innerHTML = periods.map((p) => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("");
+        await loadBudgets();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    })();
+  </script>
+</body>
+</html>

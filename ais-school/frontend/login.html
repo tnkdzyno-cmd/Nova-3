@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="login-shell">
+    <div class="login-card">
+      <div class="crest">
+        <svg width="34" height="34" viewBox="0 0 32 32">
+          <defs><linearGradient id="loginGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#1E3A8A"/><stop offset="1" stop-color="#2563EB"/>
+          </linearGradient></defs>
+          <rect width="32" height="32" rx="8" fill="url(#loginGrad)"/>
+          <path d="M16 6 L18.2 13.8 L26 16 L18.2 18.2 L16 26 L13.8 18.2 L6 16 L13.8 13.8 Z" fill="#14B8A6"/>
+        </svg>
+        <span class="crest-text">Nova</span>
+      </div>
+      <div class="sub">Ridgeview College — sign in</div>
+
+      <div id="alertHost"></div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit">Sign in</button>
+      </form>
+
+      <div class="login-hint">
+        Demo logins — <span class="mono">admin / Admin123!</span>,
+        <span class="mono">vc / Chancellor123!</span>,
+        <span class="mono">officer / Officer123!</span>,
+        <span class="mono">bursar / Bursar123!</span>,
+        <span class="mono">auditor / Audit123!</span>,
+        <span class="mono">itadmin / ITAdmin123!</span>,
+        <span class="mono">budgetofficer / Budget123!</span>.
+        Run <span class="mono">npm run seed</span> in the backend first if these don't work.
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    function landingPage() {
+      return canAccess("dashboard.html") ? "dashboard.html" : (NAV_ITEMS.find((i) => canAccess(i.href))?.href || "dashboard.html");
+    }
+    if (getToken()) window.location.href = landingPage();
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const host = document.getElementById("alertHost");
+      host.innerHTML = "";
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error?.message || "Sign in failed");
+        setSession(data.token, data.user);
+        window.location.href = landingPage();
+      } catch (err) {
+        showAlert(host, err.message, "error");
+      }
+    });
+  </script>
+</body>
+</html>

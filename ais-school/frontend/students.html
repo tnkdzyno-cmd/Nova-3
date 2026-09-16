@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Students & Billing — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Students &amp; Billing</h1><div class="sub">Student records, bulk billing, invoicing and receipts</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="panel">
+        <div class="panel-row">
+          <h2>Students</h2>
+          <button class="small" id="toggleAddStudent">+ Add student</button>
+        </div>
+        <form id="studentForm" style="display:none; margin-bottom:16px;">
+          <div class="grid-2">
+            <div class="field"><label>Student number</label><input id="sNumber" placeholder="STU-2026-004" required /></div>
+            <div class="field"><label>Full name</label><input id="sName" required /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Program / class</label><input id="sProgram" /></div>
+            <div class="field"><label>Campus</label><input id="sCampus" placeholder="e.g. Main Campus" /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Intake</label><input id="sIntake" placeholder="e.g. September 2026" /></div>
+            <div class="field"><label>Academic year</label><input id="sAcademicYear" placeholder="e.g. 2026/2027" /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Status</label>
+              <select id="sStatus"><option value="active">Active</option><option value="deferred">Deferred</option><option value="suspended">Suspended</option><option value="graduated">Graduated</option></select>
+            </div>
+            <div class="field"><label>Guardian contact (phone)</label><input id="sContact" /></div>
+          </div>
+          <div class="field"><label>Guardian e-mail (optional — receipts are sent here automatically)</label><input id="sEmail" type="email" placeholder="guardian@example.com" /></div>
+          <button type="submit">Add student</button>
+        </form>
+        <div class="field" style="max-width:320px;"><label>Search students</label><input id="studentSearch" placeholder="Name or student number" /></div>
+        <table class="ledger" id="studentsTable">
+          <thead><tr><th>Student #</th><th>Name</th><th>Campus</th><th>Status</th><th class="num">Outstanding</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Bulk billing</h2></div>
+        <div class="muted" style="margin-bottom:14px;">Filter the student list below, select who to bill, add fee lines, and every selected student is invoiced with the same lines in one action.</div>
+
+        <div class="grid-2" style="margin-bottom:10px;">
+          <div class="field"><label>Campus</label><select id="fCampus"><option value="">All campuses</option></select></div>
+          <div class="field"><label>Status</label><select id="fStatus"><option value="">All statuses</option></select></div>
+        </div>
+        <div class="grid-2" style="margin-bottom:10px;">
+          <div class="field"><label>Intake</label><select id="fIntake"><option value="">All intakes</option></select></div>
+          <div class="field"><label>Academic year</label><select id="fAcademicYear"><option value="">All academic years</option></select></div>
+        </div>
+        <div class="grid-2" style="margin-bottom:14px;">
+          <div class="field"><label>Billing status</label>
+            <select id="fBillingStatus"><option value="">Any billing status</option><option value="unpaid">Unpaid</option><option value="partial">Partially paid</option><option value="paid">Paid</option></select>
+          </div>
+          <div class="field"><label>Search (ID or name)</label><input id="fSearch" placeholder="Student ID or name" /></div>
+        </div>
+
+        <div class="panel-row" style="margin-bottom:8px;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="secondary small" id="selectFiltered">Select all filtered</button>
+            <button type="button" class="secondary small" id="selectAll">Select all students</button>
+            <button type="button" class="secondary small" id="clearSelection">Clear selection</button>
+          </div>
+          <div class="muted mono" id="selectionCount">0 selected</div>
+        </div>
+
+        <div id="bulkStudentsHost" class="muted" style="max-height:260px; overflow-y:auto; border:1px solid var(--line); border-radius:var(--radius); padding:6px; margin-bottom:16px;">Loading students…</div>
+
+        <h3>Fee lines</h3>
+        <div id="bulkLinesHost"></div>
+        <button type="button" class="secondary small" id="bulkAddLine" style="margin-bottom:14px;">+ Add fee line</button>
+        <div class="grid-2">
+          <div class="field"><label>Invoice date</label><input id="bulkDate" type="date" /></div>
+          <div class="field"><label>Due date</label><input id="bulkDue" type="date" /></div>
+        </div>
+        <button id="bulkSubmit">Bill selected students</button>
+      </div>
+
+      <div class="panel" id="studentDetail" style="display:none;">
+        <div class="panel-row">
+          <h2 id="detailName">Student</h2>
+          <button class="secondary small" id="closeDetail">Close</button>
+        </div>
+
+        <table class="ledger" id="detailInvoicesTable">
+          <thead><tr><th>Ref No</th><th>Date</th><th>Due</th><th class="num">Total</th><th class="num">Paid</th><th class="num">Outstanding</th><th>Status</th></tr></thead>
+          <tbody></tbody>
+        </table>
+
+        <h3 style="margin-top:16px;">Payments received</h3>
+        <table class="ledger" id="detailPaymentsTable">
+          <thead><tr><th>Receipt No</th><th>Date</th><th>Method</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div>
+            <h3>New invoice</h3>
+            <div id="invoiceLinesHost"></div>
+            <button type="button" class="secondary small" id="invAddLine" style="margin:8px 0 12px;">+ Add fee line</button>
+            <div class="field"><label>Invoice date</label><input id="invDate" type="date" /></div>
+            <div class="field"><label>Due date</label><input id="invDue" type="date" /></div>
+            <button id="invSubmit">Create invoice</button>
+          </div>
+          <div>
+            <h3>Record payment</h3>
+            <div class="field"><label>Against invoice</label><select id="payInvoice"></select></div>
+            <div class="field"><label>Amount</label><input id="payAmount" placeholder="0.00" inputmode="decimal" /></div>
+            <div class="field">
+              <label>Method</label>
+              <select id="payMethod"><option value="bank">Bank</option><option value="cash">Cash</option><option value="card">Card</option></select>
+            </div>
+            <div class="field"><label>Reference (optional)</label><input id="payRef" placeholder="EFT / receipt no." /></div>
+            <div class="field"><label>Date</label><input id="payDate" type="date" /></div>
+            <button id="paySubmit">Record payment</button>
+            <div class="muted" style="margin-top:8px;">A receipt PDF is generated automatically and e-mailed to the guardian if an e-mail address is on file.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("students.html");
+    const alertHost = document.getElementById("alertHost");
+    let students = [], invoicesAll = [], incomeAccounts = [], selectedStudent = null;
+    let selectedIds = new Set();
+    let filterOptions = { campuses: [], intakes: [], academicYears: [], statuses: [] };
+
+    function incomeOptions() {
+      return incomeAccounts.map((a) => `<option value="${a.id}">${escapeHtml(a.code)} — ${escapeHtml(a.name)}</option>`).join("");
+    }
+    function feeLineRow(host) {
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "1.4fr 2fr 1fr auto";
+      row.style.gap = "8px";
+      row.style.marginBottom = "8px";
+      row.innerHTML = `
+        <select class="fl-account">${incomeOptions()}</select>
+        <input class="fl-desc" placeholder="Description" />
+        <input class="fl-amount" placeholder="0.00" inputmode="decimal" />
+        <button type="button" class="secondary small fl-remove">✕</button>
+      `;
+      host.appendChild(row);
+      row.querySelector(".fl-remove").addEventListener("click", () => row.remove());
+    }
+    function readFeeLines(host) {
+      return [...host.children].map((row) => ({
+        accountId: row.querySelector(".fl-account").value,
+        description: row.querySelector(".fl-desc").value.trim() || "Fee",
+        amount: toCents(row.querySelector(".fl-amount").value || "0"),
+      })).filter((l) => l.amount > 0);
+    }
+
+    function studentBalance(studentId) {
+      return invoicesAll
+        .filter((i) => i.studentId === studentId && i.status !== "void")
+        .reduce((s, i) => s + (i.totalAmount - i.amountPaid), 0);
+    }
+    function billingStatusFor(studentId) {
+      const invoices = invoicesAll.filter((i) => i.studentId === studentId && i.status !== "void");
+      const totalBilled = invoices.reduce((s, i) => s + i.totalAmount, 0);
+      const totalPaid = invoices.reduce((s, i) => s + i.amountPaid, 0);
+      if (totalBilled === 0) return "unpaid";
+      if (totalPaid >= totalBilled) return "paid";
+      if (totalPaid > 0) return "partial";
+      return "unpaid";
+    }
+
+    function renderStudentsTable() {
+      const q = (document.getElementById("studentSearch").value || "").trim().toLowerCase();
+      const filtered = q
+        ? students.filter((s) => s.name.toLowerCase().includes(q) || s.studentNumber.toLowerCase().includes(q))
+        : students;
+      const body = document.querySelector("#studentsTable tbody");
+      body.innerHTML = filtered.length
+        ? filtered
+            .map((s) => {
+              const bal = studentBalance(s.id);
+              return `<tr>
+                <td class="mono">${escapeHtml(s.studentNumber)}</td>
+                <td>${escapeHtml(s.name)}</td>
+                <td class="muted">${escapeHtml(s.campus || "—")}</td>
+                <td><span class="${pillClass(s.status === "active" ? "posted" : s.status === "graduated" ? "posted" : s.status === "suspended" ? "void" : "open")}">${s.status}</span></td>
+                <td class="num">${money(bal)}</td>
+                <td><button class="secondary small" data-view="${s.id}">View</button></td>
+              </tr>`;
+            })
+            .join("")
+        : `<tr><td colspan="6" class="empty">${q ? "No students match your search." : "No students yet — add one above."}</td></tr>`;
+      body.querySelectorAll("[data-view]").forEach((btn) => btn.addEventListener("click", () => openStudent(btn.dataset.view)));
+    }
+    document.getElementById("studentSearch").addEventListener("input", renderStudentsTable);
+
+    // ---------- bulk billing filters + selection ----------
+
+    function filteredForBulk() {
+      const campus = document.getElementById("fCampus").value;
+      const status = document.getElementById("fStatus").value;
+      const intake = document.getElementById("fIntake").value;
+      const academicYear = document.getElementById("fAcademicYear").value;
+      const billingStatus = document.getElementById("fBillingStatus").value;
+      const search = (document.getElementById("fSearch").value || "").trim().toLowerCase();
+      return students.filter((s) => {
+        if (campus && s.campus !== campus) return false;
+        if (status && s.status !== status) return false;
+        if (intake && s.intake !== intake) return false;
+        if (academicYear && s.academicYear !== academicYear) return false;
+        if (billingStatus && billingStatusFor(s.id) !== billingStatus) return false;
+        if (search && !(s.name.toLowerCase().includes(search) || s.studentNumber.toLowerCase().includes(search))) return false;
+        return true;
+      });
+    }
+
+    function renderBulkPicker() {
+      const visible = filteredForBulk();
+      const host = document.getElementById("bulkStudentsHost");
+      host.innerHTML = visible.length
+        ? visible
+            .map((s) => {
+              const bs = billingStatusFor(s.id);
+              return `<label style="display:flex; align-items:center; gap:10px; padding:7px 6px; border-bottom:1px solid var(--line); font-size:0.85rem; cursor:pointer;">
+                <input type="checkbox" class="bulk-pick" value="${s.id}" ${selectedIds.has(s.id) ? "checked" : ""} />
+                <span style="flex:1;">${escapeHtml(s.name)} <span class="muted mono">(${escapeHtml(s.studentNumber)})</span></span>
+                <span class="muted">${escapeHtml(s.campus || "—")}</span>
+                <span class="${pillClass(bs)}">${bs}</span>
+              </label>`;
+            })
+            .join("")
+        : `<div class="empty">No students match these filters.</div>`;
+
+      host.querySelectorAll(".bulk-pick").forEach((cb) =>
+        cb.addEventListener("change", () => {
+          if (cb.checked) selectedIds.add(cb.value);
+          else selectedIds.delete(cb.value);
+          updateSelectionCount();
+        })
+      );
+      updateSelectionCount();
+    }
+
+    function updateSelectionCount() {
+      document.getElementById("selectionCount").textContent = `${selectedIds.size} selected`;
+    }
+
+    document.getElementById("selectFiltered").addEventListener("click", () => {
+      filteredForBulk().forEach((s) => selectedIds.add(s.id));
+      renderBulkPicker();
+    });
+    document.getElementById("selectAll").addEventListener("click", () => {
+      students.forEach((s) => selectedIds.add(s.id));
+      renderBulkPicker();
+    });
+    document.getElementById("clearSelection").addEventListener("click", () => {
+      selectedIds.clear();
+      renderBulkPicker();
+    });
+    ["fCampus", "fStatus", "fIntake", "fAcademicYear", "fBillingStatus"].forEach((id) =>
+      document.getElementById(id).addEventListener("change", renderBulkPicker)
+    );
+    document.getElementById("fSearch").addEventListener("input", renderBulkPicker);
+
+    function populateFilterSelects() {
+      const fill = (id, values, labelAll) => {
+        const el = document.getElementById(id);
+        const current = el.value;
+        el.innerHTML = `<option value="">${labelAll}</option>` + values.map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+        el.value = current;
+      };
+      fill("fCampus", filterOptions.campuses, "All campuses");
+      fill("fStatus", filterOptions.statuses, "All statuses");
+      fill("fIntake", filterOptions.intakes, "All intakes");
+      fill("fAcademicYear", filterOptions.academicYears, "All academic years");
+    }
+
+    // ---------- student detail (invoices, payments, new invoice/payment) ----------
+
+    async function openStudent(id) {
+      try {
+        const { student, invoices } = await api(`/api/students/${id}`);
+        selectedStudent = student;
+        document.getElementById("studentDetail").style.display = "block";
+        document.getElementById("detailName").textContent = `${student.name} — ${student.studentNumber}`;
+
+        const body = document.querySelector("#detailInvoicesTable tbody");
+        body.innerHTML = invoices.length
+          ? invoices
+              .slice()
+              .sort((a, b) => b.date.localeCompare(a.date))
+              .map((i) => `<tr>
+                <td class="mono">${escapeHtml(i.refNo)}</td>
+                <td>${fmtDate(i.date)}</td>
+                <td>${fmtDate(i.dueDate)}</td>
+                <td class="num">${money(i.totalAmount)}</td>
+                <td class="num">${money(i.amountPaid)}</td>
+                <td class="num">${money(i.totalAmount - i.amountPaid)}</td>
+                <td><span class="${pillClass(i.status)}">${i.status}</span></td>
+              </tr>`)
+              .join("")
+          : `<tr><td colspan="7" class="empty">No invoices for this student yet.</td></tr>`;
+
+        const paymentLists = await Promise.all(invoices.map((i) => api("/api/payments", { params: { invoiceId: i.id } })));
+        const payments = paymentLists.flatMap((r) => r.payments).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        const payBody = document.querySelector("#detailPaymentsTable tbody");
+        payBody.innerHTML = payments.length
+          ? payments
+              .map(
+                (p) => `<tr>
+                <td class="mono">${escapeHtml(p.refNo)}</td>
+                <td>${fmtDate(p.date)}</td>
+                <td class="muted">${p.method}</td>
+                <td class="num">${money(p.amount)}</td>
+                <td><button class="secondary small" data-receipt="${p.id}">Receipt PDF</button></td>
+              </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="5" class="empty">No payments recorded yet.</td></tr>`;
+        payBody.querySelectorAll("[data-receipt]").forEach((btn) =>
+          btn.addEventListener("click", () =>
+            downloadExport(`/api/payments/${btn.dataset.receipt}/receipt.pdf`, `receipt-${btn.closest("tr").querySelector(".mono").textContent}.pdf`).catch((err) =>
+              showAlert(alertHost, err.message, "error")
+            )
+          )
+        );
+
+        const openInvoices = invoices.filter((i) => i.status === "open" || i.status === "partial");
+        const paySelect = document.getElementById("payInvoice");
+        paySelect.innerHTML = openInvoices.length
+          ? openInvoices.map((i) => `<option value="${i.id}">${fmtDate(i.date)} — outstanding ${money(i.totalAmount - i.amountPaid)}</option>`).join("")
+          : `<option value="">No open invoices</option>`;
+
+        document.getElementById("studentDetail").scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+
+    document.getElementById("closeDetail").addEventListener("click", () => {
+      selectedStudent = null;
+      document.getElementById("studentDetail").style.display = "none";
+    });
+
+    document.getElementById("toggleAddStudent").addEventListener("click", () => {
+      const f = document.getElementById("studentForm");
+      f.style.display = f.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("studentForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api("/api/students", {
+          method: "POST",
+          body: {
+            studentNumber: document.getElementById("sNumber").value.trim(),
+            name: document.getElementById("sName").value.trim(),
+            program: document.getElementById("sProgram").value.trim(),
+            campus: document.getElementById("sCampus").value.trim() || undefined,
+            intake: document.getElementById("sIntake").value.trim() || undefined,
+            academicYear: document.getElementById("sAcademicYear").value.trim() || undefined,
+            status: document.getElementById("sStatus").value,
+            guardianContact: document.getElementById("sContact").value.trim(),
+            guardianEmail: document.getElementById("sEmail").value.trim() || undefined,
+          },
+        });
+        e.target.reset();
+        e.target.style.display = "none";
+        await refresh();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    document.getElementById("bulkAddLine").addEventListener("click", () => feeLineRow(document.getElementById("bulkLinesHost")));
+    document.getElementById("bulkSubmit").addEventListener("click", async () => {
+      const studentIds = [...selectedIds];
+      const lines = readFeeLines(document.getElementById("bulkLinesHost"));
+      if (!studentIds.length) return showAlert(alertHost, "Select at least one student to bill.", "error");
+      if (!lines.length) return showAlert(alertHost, "Add at least one fee line with an amount.", "error");
+      try {
+        const res = await api("/api/invoices/bulk", {
+          method: "POST",
+          body: { studentIds, date: document.getElementById("bulkDate").value, dueDate: document.getElementById("bulkDue").value, lines },
+        });
+        showAlert(alertHost, `Billed ${res.count} student(s) successfully.`, "ok");
+        selectedIds.clear();
+        await refresh();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    document.getElementById("invAddLine").addEventListener("click", () => feeLineRow(document.getElementById("invoiceLinesHost")));
+    document.getElementById("invSubmit").addEventListener("click", async () => {
+      if (!selectedStudent) return;
+      const lines = readFeeLines(document.getElementById("invoiceLinesHost"));
+      if (!lines.length) return showAlert(alertHost, "Add at least one fee line with an amount.", "error");
+      try {
+        await api("/api/invoices", {
+          method: "POST",
+          body: { studentId: selectedStudent.id, date: document.getElementById("invDate").value, dueDate: document.getElementById("invDue").value, lines },
+        });
+        document.getElementById("invoiceLinesHost").innerHTML = "";
+        feeLineRow(document.getElementById("invoiceLinesHost"));
+        await refresh();
+        openStudent(selectedStudent.id);
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    document.getElementById("paySubmit").addEventListener("click", async () => {
+      if (!selectedStudent) return;
+      const invoiceId = document.getElementById("payInvoice").value;
+      if (!invoiceId) return showAlert(alertHost, "This student has no open invoice to pay against.", "error");
+      try {
+        await api("/api/payments", {
+          method: "POST",
+          body: {
+            invoiceId,
+            date: document.getElementById("payDate").value,
+            amount: toCents(document.getElementById("payAmount").value || "0"),
+            method: document.getElementById("payMethod").value,
+            bankTxnRef: document.getElementById("payRef").value.trim() || undefined,
+          },
+        });
+        document.getElementById("payAmount").value = "";
+        document.getElementById("payRef").value = "";
+        showAlert(alertHost, "Payment recorded.", "ok");
+        await refresh();
+        openStudent(selectedStudent.id);
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    async function refresh() {
+      const [sRes, iRes] = await Promise.all([api("/api/students"), api("/api/invoices")]);
+      students = sRes.students;
+      invoicesAll = iRes.invoices;
+      renderStudentsTable();
+      renderBulkPicker();
+    }
+
+    (async function init() {
+      const today = new Date().toISOString().slice(0, 10);
+      ["bulkDate", "invDate", "payDate"].forEach((id) => (document.getElementById(id).value = today));
+      try {
+        const [accRes, foRes] = await Promise.all([api("/api/accounts"), api("/api/students/filter-options")]);
+        incomeAccounts = accRes.accounts.filter((a) => a.type === "income" && a.isActive);
+        filterOptions = foRes;
+        populateFilterSelects();
+        feeLineRow(document.getElementById("bulkLinesHost"));
+        feeLineRow(document.getElementById("invoiceLinesHost"));
+        await refresh();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    })();
+  </script>
+</body>
+</html>

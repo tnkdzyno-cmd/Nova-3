@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>General Ledger — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>General Ledger</h1><div class="sub">Post and review double-entry journal entries</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="panel" id="postPanel">
+        <div class="panel-row"><h2>New journal entry</h2></div>
+        <form id="journalForm">
+          <div class="grid-2">
+            <div class="field"><label>Date</label><input id="jDate" type="date" required /></div>
+            <div class="field"><label>Description</label><input id="jDesc" placeholder="e.g. Insurance premium accrual" required /></div>
+          </div>
+          <div id="linesHost"></div>
+          <button type="button" class="secondary small" id="addLine" style="margin-bottom:14px;">+ Add line</button>
+          <div class="panel-row" style="margin-top:6px;">
+            <div class="mono" id="balanceIndicator"></div>
+            <button type="submit">Post entry</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row">
+          <h2>Posted entries</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="secondary small" id="exportCsv">Export CSV</button>
+            <button class="secondary small" id="exportPdf">Export PDF</button>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:10px;">
+          <div class="field"><label>Search (ref no. or description)</label><input id="searchBox" placeholder="e.g. JE-2026-0003 or insurance" /></div>
+          <div class="field">
+            <label>Status</label>
+            <select id="statusFilter"><option value="">All statuses</option><option value="posted">Posted</option><option value="reversed">Reversed</option></select>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:14px;">
+          <div class="field"><label>From date</label><input id="dateFrom" type="date" /></div>
+          <div class="field"><label>To date</label><input id="dateTo" type="date" /></div>
+        </div>
+
+        <table class="ledger" id="journalTable">
+          <thead><tr><th>Ref No</th><th>Date</th><th>Description</th><th>Source</th><th>Status</th><th>Posted by</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="panel-row" style="margin-top:10px;">
+          <div class="muted" id="resultCount"></div>
+          <div id="pager"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("journal.html");
+    const alertHost = document.getElementById("alertHost");
+    let accounts = [];
+    let currentPage = 1;
+
+    if (!roleCan("postJournal")) document.getElementById("postPanel").style.display = "none";
+
+    function accountOptions() {
+      return accounts
+        .slice()
+        .sort((a, b) => a.code.localeCompare(b.code))
+        .map((a) => `<option value="${a.id}">${escapeHtml(a.code)} — ${escapeHtml(a.name)}</option>`)
+        .join("");
+    }
+
+    function addLineRow() {
+      const host = document.getElementById("linesHost");
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "2fr 1fr 1fr auto";
+      row.style.gap = "8px";
+      row.style.marginBottom = "8px";
+      row.innerHTML = `
+        <select class="line-account">${accountOptions()}</select>
+        <input class="line-debit" placeholder="Debit" inputmode="decimal" />
+        <input class="line-credit" placeholder="Credit" inputmode="decimal" />
+        <button type="button" class="secondary small line-remove">✕</button>
+      `;
+      host.appendChild(row);
+      row.querySelector(".line-remove").addEventListener("click", () => { row.remove(); updateBalance(); });
+      row.querySelectorAll(".line-debit, .line-credit").forEach((el) => el.addEventListener("input", updateBalance));
+    }
+
+    function updateBalance() {
+      let debit = 0, credit = 0;
+      document.querySelectorAll(".line-debit").forEach((el) => (debit += toCents(el.value || "0")));
+      document.querySelectorAll(".line-credit").forEach((el) => (credit += toCents(el.value || "0")));
+      const el = document.getElementById("balanceIndicator");
+      const diff = debit - credit;
+      el.textContent = `Debits ${money(debit)}  ·  Credits ${money(credit)}${diff !== 0 ? `  ·  Out of balance by ${money(Math.abs(diff))}` : "  ·  Balanced"}`;
+      el.style.color = diff !== 0 ? "var(--brick)" : "var(--teal-dark)";
+    }
+
+    document.getElementById("addLine").addEventListener("click", addLineRow);
+
+    document.getElementById("journalForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const lines = [...document.querySelectorAll("#linesHost > div")].map((row) => ({
+        accountId: row.querySelector(".line-account").value,
+        debit: toCents(row.querySelector(".line-debit").value || "0"),
+        credit: toCents(row.querySelector(".line-credit").value || "0"),
+      }));
+      try {
+        await api("/api/journal-entries", {
+          method: "POST",
+          body: { date: document.getElementById("jDate").value, description: document.getElementById("jDesc").value.trim(), lines },
+        });
+        e.target.reset();
+        document.getElementById("linesHost").innerHTML = "";
+        addLineRow(); addLineRow();
+        updateBalance();
+        currentPage = 1;
+        loadJournal();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    function currentFilters() {
+      return {
+        search: document.getElementById("searchBox").value.trim(),
+        status: document.getElementById("statusFilter").value,
+        dateFrom: document.getElementById("dateFrom").value,
+        dateTo: document.getElementById("dateTo").value,
+      };
+    }
+
+    async function loadJournal() {
+      const params = { ...currentFilters(), page: currentPage, pageSize: 10 };
+      const res = await api("/api/journal-entries", { params });
+      const { journalEntries, total, page, totalPages } = res;
+      const body = document.querySelector("#journalTable tbody");
+      body.innerHTML = journalEntries.length
+        ? journalEntries
+            .map((j) => {
+              const total = j.lines.reduce((s, l) => s + l.debit, 0);
+              return `<tr>
+                <td class="mono">${escapeHtml(j.refNo)}</td>
+                <td>${fmtDate(j.date)}</td>
+                <td>${escapeHtml(j.description)}${j.reversalOfId ? '<div class="muted">reversal</div>' : ""}</td>
+                <td class="muted">${j.source}</td>
+                <td><span class="${pillClass(j.status)}">${j.status}</span></td>
+                <td class="muted">${escapeHtml(j.createdByName || "")}</td>
+                <td class="num">${money(total)}</td>
+                <td>${j.status === "posted" && roleCan("reverseJournal") ? `<button class="secondary small" data-reverse="${j.id}">Reverse</button>` : ""}</td>
+              </tr>`;
+            })
+            .join("")
+        : `<tr><td colspan="8" class="empty">No journal entries match this filter.</td></tr>`;
+
+      document.getElementById("resultCount").textContent = `${total} entr${total === 1 ? "y" : "ies"} matching`;
+      renderPager(document.getElementById("pager"), { page, totalPages }, (p) => { currentPage = p; loadJournal(); });
+
+      body.querySelectorAll("[data-reverse]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          if (!confirm("Reverse this journal entry? This posts an offsetting entry and cannot be undone.")) return;
+          try {
+            await api(`/api/journal-entries/${btn.dataset.reverse}/reverse`, { method: "POST", body: {} });
+            loadJournal();
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+    }
+
+    let searchDebounce;
+    function onFilterChange() {
+      currentPage = 1;
+      loadJournal().catch((err) => showAlert(alertHost, err.message, "error"));
+    }
+    document.getElementById("searchBox").addEventListener("input", () => {
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(onFilterChange, 300);
+    });
+    ["statusFilter", "dateFrom", "dateTo"].forEach((id) => document.getElementById(id).addEventListener("change", onFilterChange));
+
+    function exportUrl(format) {
+      const params = new URLSearchParams(Object.entries(currentFilters()).filter(([, v]) => v));
+      params.set("format", format);
+      return `/api/journal-entries?${params.toString()}`;
+    }
+    document.getElementById("exportCsv").addEventListener("click", () =>
+      downloadExport(exportUrl("csv"), "journal-entries.csv").catch((err) => showAlert(alertHost, err.message, "error"))
+    );
+    document.getElementById("exportPdf").addEventListener("click", () =>
+      downloadExport(exportUrl("pdf"), "journal-entries.pdf").catch((err) => showAlert(alertHost, err.message, "error"))
+    );
+
+    (async function init() {
+      document.getElementById("jDate").value = new Date().toISOString().slice(0, 10);
+      try {
+        const res = await api("/api/accounts");
+        accounts = res.accounts;
+        addLineRow(); addLineRow();
+        updateBalance();
+        await loadJournal();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    })();
+  </script>
+</body>
+</html>

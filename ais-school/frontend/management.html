@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Management Accounts — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Management Accounts</h1><div class="sub">Key figures and pending approvals — Vice-Chancellor view</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="stat-row" id="kpiRow"></div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Budget performance</h2></div>
+        <div id="budgetSummary" class="muted"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Budgets awaiting your review or approval</h2></div>
+        <table class="ledger" id="budgetApprovalsTable">
+          <thead><tr><th>Ref No</th><th>Name</th><th class="num">Amount</th><th>Status</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row"><h2>Supplier payments awaiting a second signature</h2></div>
+        <div class="muted" style="margin-bottom:12px;">These need someone with payment authority to co-sign before they can be paid — head to Suppliers &amp; Payables to complete one.</div>
+        <table class="ledger" id="apPendingTable">
+          <thead><tr><th>Ref No</th><th>Supplier</th><th class="num">Outstanding</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("management.html");
+    const alertHost = document.getElementById("alertHost");
+
+    async function load() {
+      try {
+        const s = await api("/api/management/summary");
+
+        document.getElementById("kpiRow").innerHTML = `
+          <div class="stat ${s.trialBalanceOk ? "" : "bad"}">
+            <div class="label">Trial balance</div>
+            <div class="value">${s.trialBalanceOk ? "Balanced" : "OUT OF BALANCE"}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Cash position</div>
+            <div class="value">${money(s.cashPositionCents)}</div>
+          </div>
+          <div class="stat ${s.netSurplusCents < 0 ? "bad" : ""}">
+            <div class="label">Net surplus (period to date)</div>
+            <div class="value">${s.netSurplusCents >= 0 ? "" : "-"}${money(Math.abs(s.netSurplusCents))}</div>
+          </div>
+          <div class="stat">
+            <div class="label">AR outstanding</div>
+            <div class="value">${money(s.totalAROutstandingCents)}</div>
+          </div>
+          <div class="stat ${s.overdueReceivablesCents > 0 ? "warn" : ""}">
+            <div class="label">Overdue receivables</div>
+            <div class="value">${money(s.overdueReceivablesCents)}</div>
+          </div>
+          <div class="stat">
+            <div class="label">AP outstanding</div>
+            <div class="value">${money(s.totalAPOutstandingCents)}</div>
+          </div>
+        `;
+
+        const bs = s.budgetSummary;
+        document.getElementById("budgetSummary").innerHTML = bs.count
+          ? `${bs.count} approved/locked budget${bs.count === 1 ? "" : "s"} — budgeted ${money(bs.totalBudgeted)}, actual ${money(bs.totalActual)},
+             variance <span style="color:${bs.totalVariance < 0 ? "var(--danger)" : "var(--success)"};">${bs.totalVariance >= 0 ? "+" : ""}${money(bs.totalVariance)}</span>.
+             Full detail on the <a href="budgeting.html">Budgeting</a> page.`
+          : "No approved or locked budgets yet — see the Budgeting page.";
+
+        document.querySelector("#budgetApprovalsTable tbody").innerHTML = s.pendingBudgetApprovals.length
+          ? s.pendingBudgetApprovals
+              .map(
+                (b) => `<tr>
+                <td class="mono">${escapeHtml(b.refNo)}</td>
+                <td>${escapeHtml(b.name)}</td>
+                <td class="num">${money(b.amount)}</td>
+                <td><span class="${pillClass(b.status === "draft" || b.status === "open" ? "open" : "posted")}">${b.status}</span></td>
+                <td><a href="budgeting.html">Review on Budgeting →</a></td>
+              </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="5" class="empty">Nothing waiting on you right now.</td></tr>`;
+
+        document.querySelector("#apPendingTable tbody").innerHTML = s.pendingApPayments.length
+          ? s.pendingApPayments
+              .map(
+                (p) => `<tr>
+                <td class="mono">${escapeHtml(p.refNo)}</td>
+                <td>${escapeHtml(p.supplierName)}</td>
+                <td class="num">${money(p.outstandingCents)}</td>
+                <td><a href="suppliers.html">Go to Suppliers →</a></td>
+              </tr>`
+              )
+              .join("")
+          : `<tr><td colspan="4" class="empty">No supplier payments currently need a second signature.</td></tr>`;
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

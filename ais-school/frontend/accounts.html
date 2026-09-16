@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{document.documentElement.setAttribute("data-theme", localStorage.getItem("nova_theme")||"light")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chart of Accounts — Nova</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" id="rail"></aside>
+    <main>
+      <div class="letterhead">
+        <div><h1>Chart of Accounts</h1><div class="sub">Account structure and accounting periods</div></div>
+      </div>
+
+      <div id="alertHost"></div>
+
+      <div class="panel">
+        <div class="panel-row">
+          <h2>Accounts</h2>
+          <button class="small" id="toggleAddAccount">+ New account</button>
+        </div>
+
+        <form id="accountForm" style="display:none; margin-bottom:18px;">
+          <div class="grid-2">
+            <div class="field"><label>Code</label><input id="accCode" placeholder="e.g. 5050" required /></div>
+            <div class="field"><label>Name</label><input id="accName" placeholder="e.g. Insurance" required /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Type</label>
+              <select id="accType">
+                <option value="asset">Asset</option>
+                <option value="liability">Liability</option>
+                <option value="equity">Equity</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Control account (optional)</label>
+              <select id="accControl">
+                <option value="">— none —</option>
+                <option value="AR">Accounts Receivable control</option>
+                <option value="AP">Accounts Payable control</option>
+                <option value="BANK">Bank control</option>
+                <option value="CASH">Cash control</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit">Create account</button>
+        </form>
+
+        <table class="ledger" id="accountsTable">
+          <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Control</th><th>Status</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row">
+          <h2>Accounting periods</h2>
+          <button class="small" id="toggleAddPeriod">+ New period</button>
+        </div>
+
+        <form id="periodForm" style="display:none; margin-bottom:18px;">
+          <div class="grid-2">
+            <div class="field"><label>Name</label><input id="pName" placeholder="e.g. 2026-Q4" required /></div>
+            <div class="field"></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Start date</label><input id="pStart" type="date" required /></div>
+            <div class="field"><label>End date</label><input id="pEnd" type="date" required /></div>
+          </div>
+          <button type="submit">Create period</button>
+        </form>
+
+        <table class="ledger" id="periodsTable">
+          <thead><tr><th>Period</th><th>Start</th><th>End</th><th>Status</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    requireAuth();
+    renderRail("accounts.html");
+    const alertHost = document.getElementById("alertHost");
+
+    document.getElementById("toggleAddAccount").addEventListener("click", () => {
+      const f = document.getElementById("accountForm");
+      f.style.display = f.style.display === "none" ? "block" : "none";
+    });
+    document.getElementById("toggleAddPeriod").addEventListener("click", () => {
+      const f = document.getElementById("periodForm");
+      f.style.display = f.style.display === "none" ? "block" : "none";
+    });
+
+    async function loadAccounts() {
+      const { accounts } = await api("/api/accounts");
+      const body = document.querySelector("#accountsTable tbody");
+      body.innerHTML = accounts.length
+        ? accounts
+            .slice()
+            .sort((a, b) => a.code.localeCompare(b.code))
+            .map(
+              (a) => `<tr>
+                <td class="mono">${escapeHtml(a.code)}</td>
+                <td>${escapeHtml(a.name)}</td>
+                <td class="muted">${a.type}</td>
+                <td class="muted">${a.isControlAccount ? escapeHtml(a.isControlAccount) : "—"}</td>
+                <td>${a.isActive ? '<span class="pill pill-posted">active</span>' : '<span class="pill pill-void">inactive</span>'}</td>
+                <td>${roleCan("writeAccounts") ? `<button class="secondary small" data-toggle="${a.id}" data-active="${a.isActive}">${a.isActive ? "Deactivate" : "Reactivate"}</button>` : ""}</td>
+              </tr>`
+            )
+            .join("")
+        : `<tr><td colspan="6" class="empty">No accounts yet.</td></tr>`;
+
+      body.querySelectorAll("[data-toggle]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          try {
+            await api(`/api/accounts/${btn.dataset.toggle}`, { method: "PATCH", body: { isActive: btn.dataset.active !== "true" } });
+            loadAccounts();
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+    }
+
+    async function loadPeriods() {
+      const { periods } = await api("/api/periods");
+      const body = document.querySelector("#periodsTable tbody");
+      body.innerHTML = periods.length
+        ? periods
+            .map(
+              (p) => `<tr>
+                <td>${escapeHtml(p.name)}</td>
+                <td>${fmtDate(p.startDate)}</td>
+                <td>${fmtDate(p.endDate)}</td>
+                <td><span class="${p.status === "open" ? "pill pill-open-period" : "pill pill-closed"}">${p.status}</span></td>
+                <td>
+                  ${roleCan("closePeriod") ? `<button class="secondary small" data-period="${p.id}" data-status="${p.status}">${p.status === "open" ? "Close period" : "Reopen"}</button>` : ""}
+                  ${p.status === "open" ? `<button class="secondary small" data-checklist="${p.id}">Checklist</button>` : ""}
+                  ${p.status === "open" && roleCan("closePeriod") ? `<button class="small" data-yearend="${p.id}">Year-end close</button>` : ""}
+                </td>
+              </tr>`
+            )
+            .join("")
+        : `<tr><td colspan="5" class="empty">No periods defined yet — posting will be blocked until one exists.</td></tr>`;
+
+      body.querySelectorAll("[data-checklist]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          try {
+            const { items } = await api(`/api/periods/${btn.dataset.checklist}/close-checklist`);
+            alert(items.map((i) => `${i.passed ? "✅" : "⚠️"} ${i.label}\n   ${i.detail}`).join("\n\n"));
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+      body.querySelectorAll("[data-yearend]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          if (!confirm("Post the year-end closing entry and close this period? This zeros all income/expense activity into Retained Earnings and cannot be undone by anything except reversing the resulting journal entry.")) return;
+          try {
+            const { journalEntry } = await api(`/api/periods/${btn.dataset.yearend}/year-end-close`, { method: "POST", body: {} });
+            showAlert(alertHost, `Year-end close posted as ${journalEntry.refNo}. Period is now closed.`, "ok");
+            await loadPeriods();
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+
+      body.querySelectorAll("[data-period]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          const action = btn.dataset.status === "open" ? "close" : "reopen";
+          try {
+            await api(`/api/periods/${btn.dataset.period}/${action}`, { method: "POST" });
+            loadPeriods();
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+    }
+
+    document.getElementById("accountForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api("/api/accounts", {
+          method: "POST",
+          body: {
+            code: document.getElementById("accCode").value.trim(),
+            name: document.getElementById("accName").value.trim(),
+            type: document.getElementById("accType").value,
+            isControlAccount: document.getElementById("accControl").value || undefined,
+          },
+        });
+        e.target.reset();
+        e.target.style.display = "none";
+        loadAccounts();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    document.getElementById("periodForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api("/api/periods", {
+          method: "POST",
+          body: { name: document.getElementById("pName").value.trim(), startDate: document.getElementById("pStart").value, endDate: document.getElementById("pEnd").value },
+        });
+        e.target.reset();
+        e.target.style.display = "none";
+        loadPeriods();
+      } catch (err) {
+        showAlert(alertHost, err.message, "error");
+      }
+    });
+
+    loadAccounts().catch((err) => showAlert(alertHost, err.message, "error"));
+    loadPeriods().catch((err) => showAlert(alertHost, err.message, "error"));
+
+    // UI hint only — the server independently enforces accounts:write and
+    // period:close on every request regardless of what's shown here.
+    if (!roleCan("writeAccounts")) {
+      document.getElementById("toggleAddAccount").style.display = "none";
+      document.getElementById("toggleAddPeriod").style.display = "none";
+    }
+  </script>
+</body>
+</html>
