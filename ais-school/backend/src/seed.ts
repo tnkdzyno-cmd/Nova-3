@@ -1,6 +1,6 @@
 // Loads a realistic demo dataset: a modernized multi-campus chart of
 // accounts, two periods (one open, one closed — so the "cannot post to a
-// closed period" rule is directly demoable), demo users for all eight
+// closed period" rule is directly demoable), demo users for all six
 // Nova roles, a handful of students across different campuses/statuses
 // (for the bulk-billing filters), suppliers, and a set of posted
 // transactions so every screen has something to show.
@@ -125,25 +125,18 @@ function user(username: string, password: string, role: User["role"], fullName: 
   return u;
 }
 
+// --- Demo Users (Aligned to 6 Active Roles) ------------------------------
 const admin = user("admin", "Admin123!", "admin", "System Administrator");
 const viceChancellor = user("vc", "Chancellor123!", "vice_chancellor", "Prof. Grace Mabhena");
 const officer = user("officer", "Officer123!", "accounts_officer", "Nomsa Dube");
 user("bursar", "Bursar123!", "bursar", "Tendai Ncube");
 const auditor = user("auditor", "Audit123!", "auditor", "External Auditor");
-// Deliberately partial — demonstrates that an auditor's access is granted
-// per-scope by an administrator, not automatic by role. This auditor can
-// review the ledger and reports and their own audit trail, but has NOT
-// been granted access to suppliers, student records, billing, accounts,
-// or the user directory — those calls will 403 with a clear "not granted"
-// message, exactly as an admin restricting a specific audit engagement
-// would expect. Adjust via User Management → this account → Manage access.
-auditor.dataScopes = ["journal", "reports", "audit"];
-user("itadmin", "ITAdmin123!", "it_admin", "IT Administrator");
-const budgetOfficer = user("budgetofficer", "Budget123!", "budget_officer", "Blessing Sithole");
+user("admissions", "Admissions123!", "admissions_officer", "Admissions Officer");
 
-// A spread of campuses, statuses, intakes and academic years so the bulk
-// billing filters (campus / status / intake / academic year / billing
-// status) all have something real to filter against.
+// Auditor scope configuration
+auditor.dataScopes = ["journal", "reports", "audit"];
+
+// A spread of campuses, statuses, intakes and academic years
 const students: Student[] = [
   {
     id: newId(), studentNumber: "STU-2026-001", name: "Thandiwe Sibanda", program: "A-Level Sciences",
@@ -182,7 +175,6 @@ data.suppliers.push(...suppliers);
 const asAdmin: AuthedUser = { id: admin.id, username: admin.username, role: admin.role, fullName: admin.fullName };
 const asViceChancellor: AuthedUser = { id: viceChancellor.id, username: viceChancellor.username, role: viceChancellor.role, fullName: viceChancellor.fullName };
 const asOfficer: AuthedUser = { id: officer.id, username: officer.username, role: officer.role, fullName: officer.fullName };
-const asBudgetOfficer: AuthedUser = { id: budgetOfficer.id, username: budgetOfficer.username, role: budgetOfficer.role, fullName: budgetOfficer.fullName };
 
 // --- Opening balances ---------------------------------------------------
 postJournalEntry(
@@ -192,28 +184,25 @@ postJournalEntry(
     description: "Opening balances for FY2026",
     source: "manual",
     lines: [
-      { accountId: bank.id, debit: 5_000_000 }, // $50,000.00
-      { accountId: buildings.id, debit: 2_000_000 }, // $20,000.00
+      { accountId: bank.id, debit: 5_000_000 },
+      { accountId: buildings.id, debit: 2_000_000 },
       { accountId: openingEquity.id, credit: 7_000_000 },
     ],
   },
   asAdmin
 );
 
-// --- Term billing (AR) — only the three active students get billed ------
+// --- Term billing (AR) ---------------------------------------------------
 const activeStudentIds = students.filter((s) => s.status === "active").map((s) => s.id);
 createInvoicesBulk(
   data,
   {
     studentIds: activeStudentIds,
     date: "2026-09-01",
-    dueDate: "2026-09-05", // deliberately in the past relative to the demo's "today" —
-    // Rutendo's invoice (left unpaid below) is then genuinely overdue,
-    // giving the aged-receivables report and notifications something real
-    // to surface rather than an all-current, nothing-to-see demo.
+    dueDate: "2026-09-05",
     lines: [
-      { description: "Tuition — Term 3", accountId: tuitionIncome.id, amount: 45_000 }, // $450.00
-      { description: "Accommodation — Term 3", accountId: accommodationIncome.id, amount: 30_000 }, // $300.00
+      { description: "Tuition — Term 3", accountId: tuitionIncome.id, amount: 45_000 },
+      { description: "Accommodation — Term 3", accountId: accommodationIncome.id, amount: 30_000 },
     ],
   },
   asViceChancellor
@@ -223,11 +212,8 @@ const firstInvoice = data.invoices[0];
 const secondInvoice = data.invoices[1];
 recordPayment(data, { invoiceId: firstInvoice.id, date: "2026-09-05", amount: firstInvoice.totalAmount, method: "bank", bankTxnRef: "EFT-100234" }, asOfficer);
 recordPayment(data, { invoiceId: secondInvoice.id, date: "2026-09-06", amount: 40_000, method: "cash" }, asOfficer);
-// Rutendo's invoice (data.invoices[2]) is left fully unpaid on purpose — gives
-// the aged receivables report and the "unpaid" billing-status filter something
-// to show.
 
-// --- Supplier invoicing (AP), including a payment above the approval threshold ---
+// --- Supplier invoicing (AP) ---------------------------------------------
 const stationeryInvoice = createSupplierInvoice(
   data,
   {
@@ -246,31 +232,24 @@ const zesaInvoice = createSupplierInvoice(
     supplierId: suppliers[1].id,
     date: "2026-09-03",
     dueDate: "2026-09-25",
-    lines: [{ description: "Electricity — August 2026", accountId: electricity.id, amount: 80_000 }], // $800 > $500 threshold
+    lines: [{ description: "Electricity — August 2026", accountId: electricity.id, amount: 80_000 }],
   },
   asOfficer
 );
-// Above the $500 threshold: needs a second approver different from the poster.
+
 recordSupplierPayment(
   data,
   { invoiceId: zesaInvoice.id, date: "2026-09-08", amount: 80_000, method: "bank", bankTxnRef: "EFT-100255", approvedBy: viceChancellor.id },
   asOfficer
 );
 
-// --- Budgets (Phase 2) — one in each workflow state, so every stage of
-// the approval pipeline is directly demoable. Electricity already has
-// $800 of real posted expense (from the ZESA invoice above), so its
-// budget line shows a genuine variance once approved.
+// --- Budgets (Phase 2 Workflow Controls) --------------------------------
 const electricityBudget = createBudget(
   data,
   { name: "Q3 Electricity — Main Campus", accountId: electricity.id, periodId: openPeriod.id, amount: 70_000, notes: "Based on last year's Q3 usage plus 10%." },
-  asBudgetOfficer
+  asOfficer
 );
-submitBudget(data, electricityBudget.id, asBudgetOfficer);
-// Review and approval are now both a Vice-Chancellor action (the role
-// consolidates what used to be separate Finance Manager and Principal
-// steps) — separation of duties still holds one level up: Budget Officer
-// creates/submits, Vice-Chancellor reviews/approves.
+submitBudget(data, electricityBudget.id, asOfficer);
 reviewBudget(data, electricityBudget.id, asViceChancellor);
 approveBudget(data, electricityBudget.id, asViceChancellor);
 lockBudget(data, electricityBudget.id, asViceChancellor);
@@ -278,19 +257,16 @@ lockBudget(data, electricityBudget.id, asViceChancellor);
 const tuitionBudget = createBudget(
   data,
   { name: "Q3 Tuition Fee Income", accountId: tuitionIncome.id, periodId: openPeriod.id, amount: 1_200_000, notes: "Projected from enrolment numbers." },
-  asBudgetOfficer
+  asOfficer
 );
-submitBudget(data, tuitionBudget.id, asBudgetOfficer);
+submitBudget(data, tuitionBudget.id, asOfficer);
 reviewBudget(data, tuitionBudget.id, asViceChancellor);
-// Left "reviewed", not yet approved — demonstrates the Vice-Chancellor's
-// pending-approval queue on Management Accounts.
 
 createBudget(
   data,
   { name: "Q3 Teaching Materials & Stationery", accountId: stationery.id, periodId: openPeriod.id, amount: 25_000 },
-  asBudgetOfficer
+  asOfficer
 );
-// Left in "draft" — demonstrates a budget still being worked on.
 
 store.save();
 
@@ -301,10 +277,9 @@ console.log(`  ${data.invoices.length} invoices, ${data.payments.length} payment
 console.log("");
 console.log("Demo logins (username / password):");
 console.log("  admin / Admin123!            — System Administrator (full access)");
-console.log("  vc / Chancellor123!          — Vice-Chancellor (reverse journals, close periods, approve AP payments/budgets/journals, Management Accounts, payroll admin)");
-console.log("  officer / Officer123!        — Accounts Officer (post transactions, cannot reverse or close periods)");
-console.log("  bursar / Bursar123!          — Bursar (student billing & receipts only)");
+console.log("  vc / Chancellor123!          — Vice-Chancellor (executive dashboard & approvals)");
+console.log("  bursar / Bursar123!          — Bursar (CFO, approvals, quotas & payroll oversight)");
+console.log("  officer / Officer123!        — Accounts Officer (financial entry, draft journals & budgets)");
+console.log("  admissions / Admissions123!  — Admissions Officer (student intake)");
 console.log("  auditor / Audit123!          — Auditor (read-only, including the audit log)");
-console.log("  itadmin / ITAdmin123!        — IT Administrator (user directory + audit log only)");
-console.log("  budgetofficer / Budget123!   — Budget Officer (create/submit budgets)");
 console.log(`Seeded at ${nowIso()}`);
