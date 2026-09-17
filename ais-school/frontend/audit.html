@@ -81,7 +81,7 @@
                 <tr>
                   <td class="mono">${new Date(a.timestamp).toLocaleString()}</td>
                   <td>${escapeHtml(a.username)}</td>
-                  <td>${escapeHtml(a.entityType)}<div class="muted mono">${a.entityId.slice(0, 8)}…</div></td>
+                  <td>${escapeHtml(a.entityType)}<div class="muted mono">${a.entityId ? a.entityId.slice(0, 8) + '…' : ''}</div></td>
                   <td><span class="pill pill-open-period">${escapeHtml(a.action)}</span></td>
                   <td><button class="secondary small" data-toggle="${idx}">Details</button></td>
                 </tr>
