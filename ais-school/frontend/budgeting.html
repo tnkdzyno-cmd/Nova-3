@@ -60,7 +60,7 @@
         <div class="muted" style="margin-top:10px;">
           Workflow: <b>Draft</b> → <b>Submitted</b> → <b>Reviewed</b> → <b>Approved</b> → <b>Locked</b>.
           A submitted or reviewed budget can be rejected back to draft. Each step needs a different permission —
-          see the <a href="users.html">permission matrix</a>.
+          see the permission matrix.
         </div>
       </div>
 
@@ -129,9 +129,6 @@
       return a ? `${a.code} — ${a.name}` : "—";
     }
 
-    // What action (if any) the current user's role can take on a budget at
-    // this status. Mirrors backend/src/rbac-policy.ts's budget:* grants —
-    // hiding a button here is a UX nicety; the server enforces the real rule.
     function actionsFor(budget) {
       const actions = [];
       if (budget.status === "draft" && roleCan("submitBudget")) actions.push({ label: "Submit", action: "submit", cls: "" });
@@ -179,6 +176,7 @@
             } else {
               await api(`/api/budgets/${id}/${action}`, { method: "POST", body: {} });
             }
+            showAlert(alertHost, `Budget successfully ${action}ed.`, "ok");
             await loadBudgets();
           } catch (err) {
             showAlert(alertHost, err.message, "error");
