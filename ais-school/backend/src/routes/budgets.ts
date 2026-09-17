@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { requireRole } from '../middleware/auth';
 import { store } from '../store';
 
-const router = Router();
+export const budgetsRouter = Router();
 
 // Accounts Officer creates draft budget
-router.post('/budgets', requireRole(['accounts_officer']), (req, res) => {
+budgetsRouter.post('/budgets', requireRole(['accounts_officer']), (req, res) => {
   const budget = {
     id: `BGT-${Date.now()}`,
     ...req.body,
@@ -17,7 +17,7 @@ router.post('/budgets', requireRole(['accounts_officer']), (req, res) => {
 });
 
 // Bursar authorizes draft budget
-router.post('/budgets/:id/authorize', requireRole(['bursar']), (req, res) => {
+budgetsRouter.post('/budgets/:id/authorize', requireRole(['bursar']), (req, res) => {
   const budget = store.budgets.find((b: any) => b.id === req.params.id);
   if (!budget) return res.status(404).json({ error: 'Budget not found' });
 
@@ -25,5 +25,3 @@ router.post('/budgets/:id/authorize', requireRole(['bursar']), (req, res) => {
   budget.authorizedBy = req.user.id;
   res.json(budget);
 });
-
-export default router;
