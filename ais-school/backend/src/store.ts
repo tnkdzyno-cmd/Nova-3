@@ -24,6 +24,7 @@ import type {
   AuditLogEntry,
   Counters,
   Budget,
+  EnrollmentQuota,
 } from "./types.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -41,6 +42,7 @@ export interface DataShape {
   payments: Payment[];
   auditLog: AuditLogEntry[];
   budgets: Budget[];
+  quotas: Record<string, EnrollmentQuota>;
   counters: Counters;
 }
 
@@ -57,6 +59,7 @@ function emptyData(): DataShape {
     payments: [],
     auditLog: [],
     budgets: [],
+    quotas: {},
     counters: { journal: 0, arInvoice: 0, apInvoice: 0, arPayment: 0, apPayment: 0, budget: 0 },
   };
 }
@@ -70,9 +73,14 @@ class Store {
     if (persist && existsSync(DATA_FILE)) {
       const loaded = JSON.parse(readFileSync(DATA_FILE, "utf-8"));
       // Merge onto a fresh emptyData() so a data.json written by an older
-      // version of the app (missing e.g. `counters`) upgrades cleanly
+      // version of the app (missing e.g. `counters` or `quotas`) upgrades cleanly
       // instead of crashing on first read.
-      this.data = { ...emptyData(), ...loaded, counters: { ...emptyData().counters, ...(loaded.counters ?? {}) } };
+      this.data = {
+        ...emptyData(),
+        ...loaded,
+        quotas: loaded.quotas ?? {},
+        counters: { ...emptyData().counters, ...(loaded.counters ?? {}) },
+      };
     } else {
       this.data = emptyData();
     }
