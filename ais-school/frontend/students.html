@@ -21,7 +21,13 @@
       <div class="panel">
         <div class="panel-row">
           <h2>Students</h2>
-          <button class="small" id="toggleAddStudent">+ Add student</button>
+          <div style="display:flex; gap:8px;">
+            <div id="quotaGate" style="display:none; align-items:center; gap:8px;">
+              <input id="enrollmentQuota" type="number" placeholder="Set quota..." style="width:120px;" />
+              <button class="secondary small" id="setQuotaBtn">Save Quota</button>
+            </div>
+            <button class="small" id="toggleAddStudent" style="display:none;">+ Add student</button>
+          </div>
         </div>
         <form id="studentForm" style="display:none; margin-bottom:16px;">
           <div class="grid-2">
@@ -140,6 +146,38 @@
   <script>
     requireAuth();
     renderRail("students.html");
+
+    // --- ROLE-BASED ACCESS CONTROL ---
+    const user = getUser();
+    const role = user ? user.role : "";
+
+    if (role === "admin" || role === "admissions" || role === "admissions_officer") {
+      const addBtn = document.getElementById("toggleAddStudent");
+      if (addBtn) addBtn.style.display = "inline-block";
+    }
+    
+    if (role === "admin" || role === "bursar") {
+      const quotaGate = document.getElementById("quotaGate");
+      if (quotaGate) {
+        quotaGate.style.display = "flex";
+        document.getElementById("setQuotaBtn").addEventListener("click", async () => {
+          try {
+             const limit = document.getElementById("enrollmentQuota").value;
+             if (!limit) return showAlert(alertHost, "Enter a quota limit.", "error");
+             
+             await api("/api/quotas", { 
+               method: "POST", 
+               body: { programId: "default", maxQuota: parseInt(limit) } 
+             });
+             showAlert(alertHost, `Admission quota successfully set to ${limit}`, "ok");
+          } catch(err) { 
+             showAlert(alertHost, err.message, "error"); 
+          }
+        });
+      }
+    }
+    // ---------------------------------
+
     const alertHost = document.getElementById("alertHost");
     let students = [], invoicesAll = [], incomeAccounts = [], selectedStudent = null;
     let selectedIds = new Set();
