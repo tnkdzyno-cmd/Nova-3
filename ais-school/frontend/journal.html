@@ -47,7 +47,14 @@
           <div class="field"><label>Search (ref no. or description)</label><input id="searchBox" placeholder="e.g. JE-2026-0003 or insurance" /></div>
           <div class="field">
             <label>Status</label>
-            <select id="statusFilter"><option value="">All statuses</option><option value="posted">Posted</option><option value="reversed">Reversed</option></select>
+            <select id="statusFilter">
+              <option value="">All statuses</option>
+              <option value="draft">Draft</option>
+              <option value="pending">Pending Approval</option>
+              <option value="posted">Posted</option>
+              <option value="rejected">Rejected</option>
+              <option value="reversed">Reversed</option>
+            </select>
           </div>
         </div>
         <div class="grid-2" style="margin-bottom:14px;">
@@ -74,6 +81,9 @@
     const alertHost = document.getElementById("alertHost");
     let accounts = [];
     let currentPage = 1;
+
+    const currentUser = getUser();
+    const role = currentUser ? currentUser.role : "";
 
     if (!roleCan("postJournal")) document.getElementById("postPanel").style.display = "none";
 
@@ -133,6 +143,7 @@
         updateBalance();
         currentPage = 1;
         loadJournal();
+        showAlert(alertHost, "Journal entry created successfully.", "ok");
       } catch (err) {
         showAlert(alertHost, err.message, "error");
       }
@@ -155,7 +166,19 @@
       body.innerHTML = journalEntries.length
         ? journalEntries
             .map((j) => {
-              const total = j.lines.reduce((s, l) => s + l.debit, 0);
+              const totalAmount = j.lines.reduce((s, l) => s + l.debit, 0);
+              
+              let actionsHtml = "";
+              if (j.status === "draft" && (role === "accounts" || role === "admin")) {
+                actionsHtml += `<button class="secondary small" data-submit="${j.id}">Submit</button>`;
+              }
+              if (j.status === "pending" && (role === "vc" || role === "bursar" || role === "admin")) {
+                actionsHtml += `<button class="secondary small" data-approve="${j.id}">Approve</button> <button class="secondary small" data-reject="${j.id}">Reject</button>`;
+              }
+              if (j.status === "posted" && roleCan("reverseJournal")) {
+                actionsHtml += `<button class="secondary small" data-reverse="${j.id}">Reverse</button>`;
+              }
+
               return `<tr>
                 <td class="mono">${escapeHtml(j.refNo)}</td>
                 <td>${fmtDate(j.date)}</td>
@@ -163,8 +186,8 @@
                 <td class="muted">${j.source}</td>
                 <td><span class="${pillClass(j.status)}">${j.status}</span></td>
                 <td class="muted">${escapeHtml(j.createdByName || "")}</td>
-                <td class="num">${money(total)}</td>
-                <td>${j.status === "posted" && roleCan("reverseJournal") ? `<button class="secondary small" data-reverse="${j.id}">Reverse</button>` : ""}</td>
+                <td class="num">${money(totalAmount)}</td>
+                <td>${actionsHtml}</td>
               </tr>`;
             })
             .join("")
@@ -173,12 +196,52 @@
       document.getElementById("resultCount").textContent = `${total} entr${total === 1 ? "y" : "ies"} matching`;
       renderPager(document.getElementById("pager"), { page, totalPages }, (p) => { currentPage = p; loadJournal(); });
 
+      // Action event bindings
+      body.querySelectorAll("[data-submit]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          try {
+            await api(`/api/journal-entries/${btn.dataset.submit}/submit`, { method: "POST", body: {} });
+            loadJournal();
+            showAlert(alertHost, "Journal entry submitted for approval.", "ok");
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+
+      body.querySelectorAll("[data-approve]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          try {
+            await api(`/api/journal-entries/${btn.dataset.approve}/approve`, { method: "POST", body: {} });
+            loadJournal();
+            showAlert(alertHost, "Journal entry approved and posted.", "ok");
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+
+      body.querySelectorAll("[data-reject]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          const reason = prompt("Enter rejection reason:");
+          if (reason === null) return;
+          try {
+            await api(`/api/journal-entries/${btn.dataset.reject}/reject`, { method: "POST", body: { reason } });
+            loadJournal();
+            showAlert(alertHost, "Journal entry rejected.", "ok");
+          } catch (err) {
+            showAlert(alertHost, err.message, "error");
+          }
+        })
+      );
+
       body.querySelectorAll("[data-reverse]").forEach((btn) =>
         btn.addEventListener("click", async () => {
           if (!confirm("Reverse this journal entry? This posts an offsetting entry and cannot be undone.")) return;
           try {
             await api(`/api/journal-entries/${btn.dataset.reverse}/reverse`, { method: "POST", body: {} });
             loadJournal();
+            showAlert(alertHost, "Journal entry reversed successfully.", "ok");
           } catch (err) {
             showAlert(alertHost, err.message, "error");
           }
